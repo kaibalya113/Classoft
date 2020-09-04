@@ -1,0 +1,1511 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\LibGit2Sharp.NativeBinaries.1.0.164\build\LibGit2Sharp.NativeBinaries.props" Condition="Exists('..\packages\LibGit2Sharp.NativeBinaries.1.0.164\build\LibGit2Sharp.NativeBinaries.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8CE71B27-C218-49CF-94C8-2D5A1DE48436}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ClassManager</RootNamespace>
+    <AssemblyName>ClassManager</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <SupportUrl>http://www.accunityservices.com/ClassesManager/support.php</SupportUrl>
+    <ErrorReportUrl>http://www.accunityservices.com/ClassesManager/reportError.php</ErrorReportUrl>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ClassManager.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ClassManager.WinApp.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>BC690A312EFFB822578C291AD7B30821D5A5A9EE</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>dancee_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ClassWiseLogo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AdvancedDataGridView, Version=0.1.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ADGV.0.1.0.10\lib\net40\AdvancedDataGridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AForge">
+      <HintPath>..\Lib\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging">
+      <HintPath>..\Lib\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video">
+      <HintPath>..\Lib\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow">
+      <HintPath>..\Lib\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine">
+      <HintPath>..\..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource">
+      <HintPath>..\..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared">
+      <HintPath>..\..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms">
+      <HintPath>..\..\..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Interop.zkemkeeper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZKemkeeper.1.0.2\lib\Interop.zkemkeeper.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGit2Sharp, Version=0.23.1.0, Culture=neutral, PublicKeyToken=7cbde695407f0333, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibGit2Sharp.0.23.1\lib\net40\LibGit2Sharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialSkin">
+      <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>Lib\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebCam_Capture">
+      <HintPath>C:\Users\Kiran\Desktop\DLLforAddReference\WebCam_Capture.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="WinApp\BioMonitor\FrmBiomPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\BioMonitor\FrmBiomPopup.Designer.cs">
+      <DependentUpon>FrmBiomPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\BioMonitor\RTEventsMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\BioMonitor\RTEventsMain.designer.cs">
+      <DependentUpon>RTEventsMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Fees\FrmCheque.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Fees\FrmCheque.Designer.cs">
+      <DependentUpon>FrmCheque.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\FrmOutstandingDueFollowup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\FrmOutstandingDueFollowup.Designer.cs">
+      <DependentUpon>FrmOutstandingDueFollowup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmInstructorDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmInstructorDetails.Designer.cs">
+      <DependentUpon>FrmInstructorDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmSessionDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmSessionDetails.Designer.cs">
+      <DependentUpon>FrmSessionDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\Resume.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\Resume.Designer.cs">
+      <DependentUpon>Resume.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmDetailsTran.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmDetailsTran.Designer.cs">
+      <DependentUpon>FrmDetailsTran.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmBirthdayReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmBirthdayReport.Designer.cs">
+      <DependentUpon>FrmBirthdayReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmFollowupDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmFollowupDetails.Designer.cs">
+      <DependentUpon>FrmFollowupDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Asset\FrmEnquiryEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Asset\FrmEnquiryEntryForm.designer.cs">
+      <DependentUpon>FrmEnquiryEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Asset\FrmRegistrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Asset\FrmRegistrationForm.designer.cs">
+      <DependentUpon>FrmRegistrationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Asset\FrmStudentDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Asset\FrmStudentDetails.designer.cs">
+      <DependentUpon>FrmStudentDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmAbout.Designer.cs">
+      <DependentUpon>FrmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmAccount.Designer.cs">
+      <DependentUpon>FrmAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmActiveInactive.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmActiveInactive.Designer.cs">
+      <DependentUpon>FrmActiveInactive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmAddFacilities.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmAddFacilities.designer.cs">
+      <DependentUpon>FrmAddFacilities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmAnyFollowUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmAnyFollowUp.Designer.cs">
+      <DependentUpon>FrmAnyFollowUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmAssignPermissions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmAssignPermissions.Designer.cs">
+      <DependentUpon>FrmAssignPermissions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmAttendance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmAttendance.Designer.cs">
+      <DependentUpon>FrmAttendance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Reports\EXAM_WISE_REPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EXAM_WISE_REPORT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\Reports\FEES_CHEQUE.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FEES_CHEQUE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\Reports\FEE_RECEIPT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FEE_RECEIPT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\Reports\FIN_EXPENSE.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FIN_EXPENSE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\Reports\FIN_INCOME.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FIN_INCOME.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\Reports\INVOICE_RECEIPT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>INVOICE_RECEIPT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\Reports\INVOICE_REPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>INVOICE_REPORT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\Reports\LECTURE.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LECTURE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\Reports\RM_LC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RM_LC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\Reports\SUB_WISE_REPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SUB_WISE_REPORT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmCaptureImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmCaptureImage.Designer.cs">
+      <DependentUpon>FrmCaptureImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="WinApp\Masters\FrmAddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmAddUser.designer.cs">
+      <DependentUpon>FrmAddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmAttendanceSheet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmAttendanceSheet.Designer.cs">
+      <DependentUpon>FrmAttendanceSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmBranchMaster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmBranchMaster.Designer.cs">
+      <DependentUpon>FrmBranchMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmChangePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmChangePassword.designer.cs">
+      <DependentUpon>FrmChangePassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmCollegeMaster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmCollegeMaster.Designer.cs">
+      <DependentUpon>FrmCollegeMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmCommonGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmCommonGrid.Designer.cs">
+      <DependentUpon>FrmCommonGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmCommonPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmCommonPopup.Designer.cs">
+      <DependentUpon>FrmCommonPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmConfig.designer.cs">
+      <DependentUpon>FrmConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmCreateAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmCreateAccount.Designer.cs">
+      <DependentUpon>FrmCreateAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\FrmDashBoard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\FrmDashBoard.Designer.cs">
+      <DependentUpon>FrmDashBoard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmDeleteStudent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmDeleteStudent.designer.cs">
+      <DependentUpon>FrmDeleteStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmEnquiryReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmEnquiryReport.Designer.cs">
+      <DependentUpon>FrmEnquiryReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Exam\FrmExamReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Exam\FrmExamReport.Designer.cs">
+      <DependentUpon>FrmExamReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmExpenseReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmExpenseReport.Designer.cs">
+      <DependentUpon>FrmExpenseReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmExpiredRenewal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmExpiredRenewal.Designer.cs">
+      <DependentUpon>FrmExpiredRenewal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmExpiryReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmExpiryReport.Designer.cs">
+      <DependentUpon>FrmExpiryReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Fees\FrmFeesPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Fees\FrmFeesPayment.Designer.cs">
+      <DependentUpon>FrmFeesPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmFollowReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmFollowReport.Designer.cs">
+      <DependentUpon>FrmFollowReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmIncomeReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmIncomeReport.Designer.cs">
+      <DependentUpon>FrmIncomeReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmLectureRepeat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmLectureRepeat.Designer.cs">
+      <DependentUpon>FrmLectureRepeat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\FrmManual.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\FrmManual.Designer.cs">
+      <DependentUpon>FrmManual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Marketing\FrmMarketing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Marketing\FrmMarketing.Designer.cs">
+      <DependentUpon>FrmMarketing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmOutstandingFees.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmOutstandingFees.Designer.cs">
+      <DependentUpon>FrmOutstandingFees.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmPackagePopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmPackagePopup.Designer.cs">
+      <DependentUpon>FrmPackagePopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmRegistration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmRegistration.Designer.cs">
+      <DependentUpon>FrmRegistration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmLecturesTimeTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmLecturesTimeTable.Designer.cs">
+      <DependentUpon>FrmLecturesTimeTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmMonthSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmMonthSelector.Designer.cs">
+      <DependentUpon>FrmMonthSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmOptionalSubject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmOptionalSubject.designer.cs">
+      <DependentUpon>FrmOptionalSubject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmReport.Designer.cs">
+      <DependentUpon>FrmReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmSettings.Designer.cs">
+      <DependentUpon>FrmSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmImportRegistration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmImportRegistration.designer.cs">
+      <DependentUpon>FrmImportRegistration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Popups\FrmSMS_Details.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Popups\FrmSMS_Details.Designer.cs">
+      <DependentUpon>FrmSMS_Details.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmStudentDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmStudentDetails.designer.cs">
+      <DependentUpon>FrmStudentDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmStudentInstallments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmStudentInstallments.Designer.cs">
+      <DependentUpon>FrmStudentInstallments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmSubjectMaster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmSubjectMaster.Designer.cs">
+      <DependentUpon>FrmSubjectMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmDailyReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmDailyReport.Designer.cs">
+      <DependentUpon>FrmDailyReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmExpenses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmExpenses.Designer.cs">
+      <DependentUpon>FrmExpenses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Fees\FrmFeesCollectionReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Fees\FrmFeesCollectionReport.Designer.cs">
+      <DependentUpon>FrmFeesCollectionReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmAttendenceLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmAttendenceLog.Designer.cs">
+      <DependentUpon>FrmAttendenceLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmHolidayMaster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmHolidayMaster.Designer.cs">
+      <DependentUpon>FrmHolidayMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmIncomeEntry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmIncomeEntry.Designer.cs">
+      <DependentUpon>FrmIncomeEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmFinance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmFinance.Designer.cs">
+      <DependentUpon>FrmFinance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmEnquiryEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmEnquiryEntryForm.designer.cs">
+      <DependentUpon>FrmEnquiryEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmFaculty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmFaculty.Designer.cs">
+      <DependentUpon>FrmFaculty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Marketing\FrmImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Marketing\FrmImport.designer.cs">
+      <DependentUpon>FrmImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmInstallmentDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmInstallmentDetails.Designer.cs">
+      <DependentUpon>FrmInstallmentDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmFollowUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmFollowUp.Designer.cs">
+      <DependentUpon>FrmFollowUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmSystemParam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmSystemParam.Designer.cs">
+      <DependentUpon>FrmSystemParam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmTemplate.Designer.cs">
+      <DependentUpon>FrmTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmFaculties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmFaculties.Designer.cs">
+      <DependentUpon>FrmFaculties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmFollowUpVew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmFollowUpVew.Designer.cs">
+      <DependentUpon>FrmFollowUpVew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\FrmLogin.designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmPrintConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmPrintConfig.Designer.cs">
+      <DependentUpon>FrmPrintConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmReportViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmReportViewer.Designer.cs">
+      <DependentUpon>FrmReportViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmEnquiries.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Enquiry\FrmEnquiries.Designer.cs">
+      <DependentUpon>FrmEnquiries.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmCourses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmCourses.Designer.cs">
+      <DependentUpon>FrmCourses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmPackagesView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmPackagesView.Designer.cs">
+      <DependentUpon>FrmPackagesView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmRegistrationsView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmRegistrationsView.Designer.cs">
+      <DependentUpon>FrmRegistrationsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Marketing\FrmSendNotification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Marketing\FrmSendNotification.Designer.cs">
+      <DependentUpon>FrmSendNotification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Exam\FrmTestMaster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Exam\FrmTestMaster.designer.cs">
+      <DependentUpon>FrmTestMaster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmTransfereAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmTransfereAccount.Designer.cs">
+      <DependentUpon>FrmTransfereAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Exam\FrmUploadMarks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Exam\FrmUploadMarks.Designer.cs">
+      <DependentUpon>FrmUploadMarks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmUserParameters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Configuration\FrmUserParameters.Designer.cs">
+      <DependentUpon>FrmUserParameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmViewAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmViewAccount.Designer.cs">
+      <DependentUpon>FrmViewAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmViewCheques.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmViewCheques.Designer.cs">
+      <DependentUpon>FrmViewCheques.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmViewDeleteFacilities.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmViewDeleteFacilities.Designer.cs">
+      <DependentUpon>FrmViewDeleteFacilities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmViewScheduleLect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Attendance\FrmViewScheduleLect.Designer.cs">
+      <DependentUpon>FrmViewScheduleLect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Exam\FrmViewSub.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Exam\FrmViewSub.Designer.cs">
+      <DependentUpon>FrmViewSub.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Exam\FrmViewTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Exam\FrmViewTest.Designer.cs">
+      <DependentUpon>FrmViewTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Frm_Biom_Popup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Frm_Biom_Popup.Designer.cs">
+      <DependentUpon>Frm_Biom_Popup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmAddFacilities.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmAddFacilities.Designer.cs">
+      <DependentUpon>FrmAddFacilities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmEnquiries.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmEnquiries.designer.cs">
+      <DependentUpon>FrmEnquiries.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmEnquiryEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmEnquiryEntryForm.designer.cs">
+      <DependentUpon>FrmEnquiryEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmEnquiryReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmEnquiryReport.Designer.cs">
+      <DependentUpon>FrmEnquiryReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmMeasurement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmMeasurement.Designer.cs">
+      <DependentUpon>FrmMeasurement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmQuickAdmission.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmQuickAdmission.Designer.cs">
+      <DependentUpon>FrmQuickAdmission.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmRegistrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmRegistrationForm.designer.cs">
+      <DependentUpon>FrmRegistrationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmStudent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmStudent.Designer.cs">
+      <DependentUpon>FrmStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmStudentDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Gym\FrmStudentDetails.designer.cs">
+      <DependentUpon>FrmStudentDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmViewOutstanding.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Finance\FrmViewOutstanding.Designer.cs">
+      <DependentUpon>FrmViewOutstanding.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Popups\FrmBankTransfer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Popups\FrmBankTransfer.Designer.cs">
+      <DependentUpon>FrmBankTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Popups\FrmChequePopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Popups\FrmChequePopup.Designer.cs">
+      <DependentUpon>FrmChequePopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Popups\FrmHelpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Popups\FrmHelpForm.Designer.cs">
+      <DependentUpon>FrmHelpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\BioMonitor\SearchforUSBCom.cs" />
+    <Compile Include="WinApp\UICommon\FormFactory.cs" />
+    <Compile Include="WinApp\FrmMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\FrmMainForm.designer.cs">
+      <DependentUpon>FrmMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WinApp\Membership\FrmRegistrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Membership\FrmRegistrationForm.designer.cs">
+      <DependentUpon>FrmRegistrationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmStandardMasterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmStandardMasterForm.designer.cs">
+      <DependentUpon>FrmStandardMasterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmSubjectPackageMasterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\Masters\FrmSubjectPackageMasterForm.designer.cs">
+      <DependentUpon>FrmSubjectPackageMasterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmActivityDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\ReportForms\FrmActivityDetails.Designer.cs">
+      <DependentUpon>FrmActivityDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmParentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\FrmParentForm.Designer.cs">
+      <DependentUpon>FrmParentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinApp\UICommon\Lang.cs" />
+    <Compile Include="WinApp\UICommon\StudentDetailsParent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\SuggestComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\SuperGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinApp\UICommon\Webcam.cs" />
+    <Compile Include="WinApp\UICommon\WinForm.cs" />
+    <Compile Include="WinApp\UICommon\Forms.cs" />
+    <Compile Include="WinApp\UICommon\Prompt.cs" />
+    <None Include="Resources\dollar-symbol.png" />
+    <None Include="Resources\bank.png" />
+    <None Include="bin\Debug\Photo\Asset Softer Cover Page.png" />
+    <None Include="Resources\Add.png" />
+    <Content Include="lang.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\anydo_popup.mp3" />
+    <None Include="Resources\deleteBin.png" />
+    <None Include="Resources\Asset Softer Cover Page resized.png" />
+    <None Include="Resources\Asset Softer Cover.png" />
+    <None Include="Resources\Custom-Icon-Design-Mono-General-4-Refresh.ico" />
+    <None Include="Resources\download.bmp" />
+    <None Include="Resources\download.png" />
+    <Content Include="Resources\eye.png" />
+    <None Include="Resources\savings.png" />
+    <None Include="Resources\give-money.png" />
+    <None Include="Resources\repeat.png" />
+    <None Include="Resources\icon.png" />
+    <None Include="Resources\printer.png" />
+    <None Include="Resources\upgrade.png" />
+    <None Include="Resources\reload.png" />
+    <None Include="Resources\reload_form.png" />
+    <None Include="Resources\reload_common.png" />
+    <None Include="Resources\reload_common1.png" />
+    <None Include="Resources\pay.png" />
+    <Content Include="Resources\View.png" />
+    <None Include="Resources\Edit.png" />
+    <None Include="Resources\class-wise-logo.png" />
+    <None Include="Resources\followup.png" />
+    <None Include="Resources\Users-icon.png" />
+    <None Include="Resources\time-is-money.png" />
+    <None Include="Resources\students-teacher-and-blackboard.png" />
+    <None Include="Resources\speech-bubble-with-question-mark.png" />
+    <None Include="Resources\signing-the-contract.png" />
+    <None Include="Resources\search.png" />
+    <None Include="Resources\save-file-button.png" />
+    <None Include="Resources\rupee-indian.png" />
+    <None Include="Resources\refresh-arrows-symbol-of-interface.png" />
+    <None Include="Resources\reception.png" />
+    <None Include="Resources\printer-with-document.png" />
+    <None Include="Resources\ok-like-hand-sign.png" />
+    <None Include="Resources\img.png" />
+    <None Include="Resources\icon-sms.png" />
+    <None Include="Resources\icon-mark.png" />
+    <None Include="Resources\icon-graph.png" />
+    <None Include="Resources\icon-excel.png" />
+    <None Include="Resources\icon-delete.png" />
+    <None Include="Resources\house-key.png" />
+    <None Include="Resources\hourglass.png" />
+    <None Include="Resources\Gmail_Icon.png" />
+    <None Include="Resources\folder-remove-button.png" />
+    <None Include="Resources\customer-service.png" />
+    <None Include="Resources\classroom.png" />
+    <None Include="Resources\check-form.png" />
+    <None Include="Resources\checked-files.png" />
+    <None Include="Resources\calendar.png" />
+    <None Include="Resources\businessman-with-doubts.png" />
+    <None Include="Resources\admin-icon1.png" />
+    <None Include="Resources\admin-icon.png" />
+    <None Include="Resources\accunity1.png" />
+    <None Include="Resources\16385-200.png" />
+    <EmbeddedResource Include="WinApp\BioMonitor\FrmBiomPopup.resx">
+      <DependentUpon>FrmBiomPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\BioMonitor\RTEventsMain.resx">
+      <DependentUpon>RTEventsMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Fees\FrmCheque.resx">
+      <DependentUpon>FrmCheque.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\FrmOutstandingDueFollowup.resx">
+      <DependentUpon>FrmOutstandingDueFollowup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmInstructorDetails.resx">
+      <DependentUpon>FrmInstructorDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmSessionDetails.resx">
+      <DependentUpon>FrmSessionDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\Resume.resx">
+      <DependentUpon>Resume.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\UICommon\FrmDetailsTran.resx">
+      <DependentUpon>FrmDetailsTran.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\ReportForms\FrmBirthdayReport.resx">
+      <DependentUpon>FrmBirthdayReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Enquiry\FrmFollowupDetails.resx">
+      <DependentUpon>FrmFollowupDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Asset\FrmEnquiryEntryForm.resx">
+      <DependentUpon>FrmEnquiryEntryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Asset\FrmRegistrationForm.resx">
+      <DependentUpon>FrmRegistrationForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Asset\FrmStudentDetails.resx">
+      <DependentUpon>FrmStudentDetails.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Configuration\FrmAbout.resx">
+      <DependentUpon>FrmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmAccount.resx">
+      <DependentUpon>FrmAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\ReportForms\FrmActiveInactive.resx">
+      <DependentUpon>FrmActiveInactive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmAddFacilities.resx">
+      <DependentUpon>FrmAddFacilities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Enquiry\FrmAnyFollowUp.resx">
+      <DependentUpon>FrmAnyFollowUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Configuration\FrmAssignPermissions.resx">
+      <DependentUpon>FrmAssignPermissions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Attendance\FrmAttendance.resx">
+      <DependentUpon>FrmAttendance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\UICommon\FrmCaptureImage.resx">
+      <DependentUpon>FrmCaptureImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmAddUser.resx">
+      <DependentUpon>FrmAddUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Attendance\FrmAttendanceSheet.resx">
+      <DependentUpon>FrmAttendanceSheet.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmBranchMaster.resx">
+      <DependentUpon>FrmBranchMaster.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Configuration\FrmChangePassword.resx">
+      <DependentUpon>FrmChangePassword.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmCollegeMaster.resx">
+      <DependentUpon>FrmCollegeMaster.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\UICommon\FrmCommonGrid.resx">
+      <DependentUpon>FrmCommonGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\UICommon\FrmCommonPopup.resx">
+      <DependentUpon>FrmCommonPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Configuration\FrmConfig.resx">
+      <DependentUpon>FrmConfig.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="ClassManagerSync.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="classwise.ico" />
+    <Content Include="ClassWiseLogo.ico" />
+    <Content Include="education.ico" />
+    <Content Include="Lib\AdvancedDataGridView.dll" />
+    <Content Include="Lib\Microsoft.Office.Interop.Excel.dll" />
+    <EmbeddedResource Include="WinApp\Masters\FrmCreateAccount.resx">
+      <DependentUpon>FrmCreateAccount.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\FrmDashBoard.resx">
+      <DependentUpon>FrmDashBoard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmDeleteStudent.resx">
+      <DependentUpon>FrmDeleteStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Enquiry\FrmEnquiryReport.resx">
+      <DependentUpon>FrmEnquiryReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Exam\FrmExamReport.resx">
+      <DependentUpon>FrmExamReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Finance\FrmExpenseReport.resx">
+      <DependentUpon>FrmExpenseReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmExpiredRenewal.resx">
+      <DependentUpon>FrmExpiredRenewal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmExpiryReport.resx">
+      <DependentUpon>FrmExpiryReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Fees\FrmFeesPayment.resx">
+      <DependentUpon>FrmFeesPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Enquiry\FrmFollowReport.resx">
+      <DependentUpon>FrmFollowReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Finance\FrmIncomeReport.resx">
+      <DependentUpon>FrmIncomeReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Attendance\FrmLectureRepeat.resx">
+      <DependentUpon>FrmLectureRepeat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\FrmManual.resx">
+      <DependentUpon>FrmManual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Marketing\FrmMarketing.resx">
+      <DependentUpon>FrmMarketing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Finance\FrmOutstandingFees.resx">
+      <DependentUpon>FrmOutstandingFees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\UICommon\FrmPackagePopup.resx">
+      <DependentUpon>FrmPackagePopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmRegistration.resx">
+      <DependentUpon>FrmRegistration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Attendance\FrmLecturesTimeTable.resx">
+      <DependentUpon>FrmLecturesTimeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\UICommon\FrmMonthSelector.resx">
+      <DependentUpon>FrmMonthSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmOptionalSubject.resx">
+      <DependentUpon>FrmOptionalSubject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\ReportForms\FrmReport.resx">
+      <DependentUpon>FrmReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Configuration\FrmSettings.resx">
+      <DependentUpon>FrmSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmImportRegistration.resx">
+      <DependentUpon>FrmImportRegistration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Popups\FrmSMS_Details.resx">
+      <DependentUpon>FrmSMS_Details.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmStudentDetails.resx">
+      <DependentUpon>FrmStudentDetails.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmStudentInstallments.resx">
+      <DependentUpon>FrmStudentInstallments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmSubjectMaster.resx">
+      <DependentUpon>FrmSubjectMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\ReportForms\FrmDailyReport.resx">
+      <DependentUpon>FrmDailyReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Finance\FrmExpenses.resx">
+      <DependentUpon>FrmExpenses.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Fees\FrmFeesCollectionReport.resx">
+      <DependentUpon>FrmFeesCollectionReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Attendance\FrmAttendenceLog.resx">
+      <DependentUpon>FrmAttendenceLog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmHolidayMaster.resx">
+      <DependentUpon>FrmHolidayMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Finance\FrmIncomeEntry.resx">
+      <DependentUpon>FrmIncomeEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Finance\FrmFinance.resx">
+      <DependentUpon>FrmFinance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Enquiry\FrmEnquiryEntryForm.resx">
+      <DependentUpon>FrmEnquiryEntryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmFaculty.resx">
+      <DependentUpon>FrmFaculty.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Marketing\FrmImport.resx">
+      <DependentUpon>FrmImport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\UICommon\FrmInstallmentDetails.resx">
+      <DependentUpon>FrmInstallmentDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Enquiry\FrmFollowUp.resx">
+      <DependentUpon>FrmFollowUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Configuration\FrmSystemParam.resx">
+      <DependentUpon>FrmSystemParam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Configuration\FrmTemplate.resx">
+      <DependentUpon>FrmTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmFaculties.resx">
+      <DependentUpon>FrmFaculties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Enquiry\FrmFollowUpVew.resx">
+      <DependentUpon>FrmFollowUpVew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\FrmMainForm.resx">
+      <DependentUpon>FrmMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Configuration\FrmPrintConfig.resx">
+      <DependentUpon>FrmPrintConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmRegistrationForm.resx">
+      <DependentUpon>FrmRegistrationForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\ReportForms\FrmReportViewer.resx">
+      <DependentUpon>FrmReportViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmCourses.resx">
+      <DependentUpon>FrmCourses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Enquiry\FrmEnquiries.resx">
+      <DependentUpon>FrmEnquiries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmPackagesView.resx">
+      <DependentUpon>FrmPackagesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmRegistrationsView.resx">
+      <DependentUpon>FrmRegistrationsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmStandardMasterForm.resx">
+      <DependentUpon>FrmStandardMasterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Masters\FrmSubjectPackageMasterForm.resx">
+      <DependentUpon>FrmSubjectPackageMasterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Marketing\FrmSendNotification.resx">
+      <DependentUpon>FrmSendNotification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Exam\FrmTestMaster.resx">
+      <DependentUpon>FrmTestMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Finance\FrmTransfereAccount.resx">
+      <DependentUpon>FrmTransfereAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Exam\FrmUploadMarks.resx">
+      <DependentUpon>FrmUploadMarks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Configuration\FrmUserParameters.resx">
+      <DependentUpon>FrmUserParameters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Finance\FrmViewAccount.resx">
+      <DependentUpon>FrmViewAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Finance\FrmViewCheques.resx">
+      <DependentUpon>FrmViewCheques.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\ReportForms\FrmViewDeleteFacilities.resx">
+      <DependentUpon>FrmViewDeleteFacilities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Attendance\FrmViewScheduleLect.resx">
+      <DependentUpon>FrmViewScheduleLect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Exam\FrmViewSub.resx">
+      <DependentUpon>FrmViewSub.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Exam\FrmViewTest.resx">
+      <DependentUpon>FrmViewTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Frm_Biom_Popup.resx">
+      <DependentUpon>Frm_Biom_Popup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Gym\FrmAddFacilities.resx">
+      <DependentUpon>FrmAddFacilities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Gym\FrmEnquiries.resx">
+      <DependentUpon>FrmEnquiries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Gym\FrmEnquiryEntryForm.resx">
+      <DependentUpon>FrmEnquiryEntryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Gym\FrmEnquiryReport.resx">
+      <DependentUpon>FrmEnquiryReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Gym\FrmMeasurement.resx">
+      <DependentUpon>FrmMeasurement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Gym\FrmQuickAdmission.resx">
+      <DependentUpon>FrmQuickAdmission.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Gym\FrmRegistrationForm.resx">
+      <DependentUpon>FrmRegistrationForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Membership\FrmStudent.resx">
+      <DependentUpon>FrmStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Gym\FrmStudentDetails.resx">
+      <DependentUpon>FrmStudentDetails.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Finance\FrmViewOutstanding.resx">
+      <DependentUpon>FrmViewOutstanding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Popups\FrmBankTransfer.resx">
+      <DependentUpon>FrmBankTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Popups\FrmChequePopup.resx">
+      <DependentUpon>FrmChequePopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Popups\FrmHelpForm.resx">
+      <DependentUpon>FrmHelpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Reports\EXAM_WISE_REPORT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>EXAM_WISE_REPORT.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Reports\FEES_CHEQUE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FEES_CHEQUE.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Reports\FEE_RECEIPT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FEE_RECEIPT.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Reports\INVOICE_RECEIPT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>INVOICE_RECEIPT.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Reports\FIN_INCOME.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FIN_INCOME.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Reports\INVOICE_REPORT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>INVOICE_REPORT.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Reports\LECTURE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>LECTURE.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Reports\SUB_WISE_REPORT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SUB_WISE_REPORT.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Reports\FIN_EXPENSE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>FIN_EXPENSE.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\Reports\RM_LC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RM_LC.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\ReportForms\FrmActivityDetails.resx">
+      <DependentUpon>FrmActivityDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinApp\UICommon\FrmParentForm.resx">
+      <DependentUpon>FrmParentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\EmailEntities.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AcroPDFLib">
+      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="AxAcroPDFLib">
+      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BioMonitor\BioMonitor.csproj">
+      <Project>{0b8fd38d-56fc-452b-906b-64c88672dd4f}</Project>
+      <Name>BioMonitor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{55DDE170-F7E0-46FB-B735-1364A81A831A}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{B052A60B-D72F-4703-A4E7-DC11234C72FE}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Info\Info.csproj">
+      <Project>{CB636376-A373-4570-B4D6-54438CC5F589}</Project>
+      <Name>Info</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lib\CrystalReport\" />
+    <Folder Include="Service References\App Data\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\LibGit2Sharp.NativeBinaries.1.0.164\build\LibGit2Sharp.NativeBinaries.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibGit2Sharp.NativeBinaries.1.0.164\build\LibGit2Sharp.NativeBinaries.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

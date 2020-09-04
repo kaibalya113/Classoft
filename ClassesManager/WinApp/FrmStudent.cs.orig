@@ -1,0 +1,198 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace ClassManager.WinApp
+{
+    public partial class FrmStudent : Form
+    {
+        string branchID = WinApp.Program.LoggedInUser.BranchId.ToString();
+        string sCaption = "Show All Student";
+
+        DataTable studentDt;
+
+        public FrmStudent()
+        {
+            InitializeComponent();
+        }
+
+        private void ShowAllStudent_Load(object sender, EventArgs e)
+        {
+            //cmdViewStudent.SelectedIndex = 0;
+            studentDt = BLL.StudentHandller.getAllStudents(Convert.ToString(WinApp.Program.LoggedInUser.BranchId));
+            getcount(studentDt);
+            AssignEvents();
+            ADGVStudent.DataSource = studentDt;
+
+        }
+        private void AssignEvents()
+        {
+            ADGVStudent.SortStringChanged += new System.EventHandler(Common.Events.sortGridView);
+            ADGVStudent.FilterStringChanged += new System.EventHandler(Common.Events.filterGridView);
+        }
+
+
+        public void formatviewallStudentgrid()
+        {
+            //Set Column Headers
+            ADGVStudent.Columns["STMT_ADMISSION_NO"].HeaderText = "AdmissionNo";
+            ADGVStudent.Columns["STMT_MEMSHIP_NO"].HeaderText = "Membership No";
+            ADGVStudent.Columns["STAM_ROLL_NO"].HeaderText = "Roll No";
+            ADGVStudent.Columns["STMT_ADMISSION_DATE"].HeaderText = "Admission Date";
+            ADGVStudent.Columns["NAME"].HeaderText = "Standard";
+            ADGVStudent.Columns["STRM_NAME"].HeaderText = "Stream";
+            ADGVStudent.Columns["STMT_CONTACT_NO"].HeaderText = "Contact No";
+            ADGVStudent.Columns["STMT_ADDRESS"].HeaderText = "Address";
+
+
+
+            //Hide Columns
+
+
+        }
+        private void getcount(DataTable studentDt)
+        {
+            try
+            {
+                DataView dataView = studentDt.AsDataView();
+                dataView.RowFilter = "([STMT_DEACTIVATED] IN ('NO'))";
+                lblActive.Text = (from DataRow dRow in dataView.ToTable().Rows
+                                  select dRow["STMT_ADMISSION_NO"]
+                                  ).Distinct().Count().ToString();
+
+<<<<<<< HEAD
+                
+=======
+            DataView dataView = studentDt.AsDataView();
+            dataView.RowFilter = "([STMT_DEACTIVATED] IN ('NO'))";
+            lblActive.Text = (from DataRow dRow in dataView.ToTable().Rows
+                              select dRow["STMT_ADMISSION_NO"]).Distinct().Count().ToString();
+>>>>>>> 0ed11c3048eeb0be361b22b94bf9b0eb0ce5a11b
+
+                dataView.RowFilter = "([STMT_DEACTIVATED] IN ('YES'))";
+                lblInactive.Text = (from DataRow dRow in dataView.ToTable().Rows
+                                    select dRow["STMT_ADMISSION_NO"]).Distinct().Count().ToString();
+
+<<<<<<< HEAD
+                dataView.RowFilter = "([STMT_DEACTIVATED] IN ('NO','YES'))";
+                lblAll.Text = (from DataRow dRow in dataView.ToTable().Rows
+                               select dRow["STMT_ADMISSION_NO"]).Distinct().Count().ToString();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+=======
+            dataView.RowFilter = "([STMT_DEACTIVATED] IN ('YES'))";
+            lblInactive.Text = (from DataRow dRow in dataView.ToTable().Rows
+                                select dRow["STMT_ADMISSION_NO"]).Distinct().Count().ToString();
+
+            dataView.RowFilter = "([STMT_DEACTIVATED] IN ('NO','YES'))";
+            lblAll.Text = (from DataRow dRow in dataView.ToTable().Rows
+                           select dRow["STMT_ADMISSION_NO"]).Distinct().Count().ToString();
+>>>>>>> 0ed11c3048eeb0be361b22b94bf9b0eb0ce5a11b
+        }
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ADGVStudent.Rows.Count != 0)
+                {
+                    Common.ImportExport.ImportToExcel(ADGVStudent);
+                }
+                else
+                {
+                    UICommon.WinForm.showStatus("No records to save", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                UICommon.WinForm.showError(ex, "Please Install Excel So that Document can be Saved,Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+
+            }
+        }
+        private void txtFName_TextChanged(object sender, EventArgs e)
+       {
+            try
+            {
+                BindingSource bs = new BindingSource();
+                bs.DataSource = ADGVStudent.DataSource;
+                bs.Filter = ADGVStudent.Columns[3].HeaderText.ToString() + " LIKE '%" + txtFName.Text + "%'";
+                ADGVStudent.DataSource = bs;
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+        private void cmdViewStudent_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            { 
+                BindingSource bs = new BindingSource();
+                bs.DataSource = studentDt;
+                if (chkAllBranch.Checked)
+                {
+                    // studentDt = BLL.StudentHandller.getStudentPersonnlDetails("%", "%");
+                    bs.DataSource = studentDt;
+                    bs.Filter = "([STMT_BRNCH_ID] IN ('%'))";
+                    ADGVStudent.DataSource = studentDt;
+                }
+
+
+                switch(cmdViewStudent.SelectedIndex)
+                {
+                    case 0:
+                        bs.Filter = "STMT_DEACTIVATED IN ('Yes', 'No')";
+                        break;
+                    case 1:
+                        bs.Filter = "STMT_DEACTIVATED IN ('No')";
+                        break;
+                    case 2:
+                        bs.Filter = "STMT_DEACTIVATED IN ('Yes')";
+                        break;
+                }
+                ADGVStudent.DataSource = bs;
+                }
+            
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            } 
+        }
+        private void btnNewRegistration_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                UICommon.FormFactory.GetForm(UICommon.Forms.FrmRegistrationForm).Visible = true;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+
+            }
+        }
+
+        private void ADGVStudent_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            try
+            {
+                formatviewallStudentgrid();
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, sCaption, this);
+            }
+            
+        }
+    }
+}

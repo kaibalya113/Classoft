@@ -1,0 +1,1 @@
+alter table  CHEQUE_DETAILS add CHQ_USR_ID int

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  dbo.
+  <Job>
+    <Name>Export</Name>
+    <ConnectionString>server=DESKTOP-1ACIHC3\MSSQLEXPRESS;database=CMV1.1;User ID=sa;Password=sa</ConnectionString>
+    <Tables>
+      <Table BranchColumnName="">dbo.BRANCH_MASTER</Table>
+      <Table BranchColumnName="STRM_BRANCH_ID">dbo.STREAM</Table>
+      <Table BranchColumnName="STD_BRANCH_ID">dbo.STANDARD</Table>
+      <Table BranchColumnName="BTCH_BRANCH_ID">dbo.BATCH</Table>
+      <Table BranchColumnName="ACT_BRANCH_ID">dbo.GLB_ACCOUNTS</Table>
+      <Table BranchColumnName="HOLM_BRANCH_ID">dbo.HOLIDAY_MASTER</Table>
+      <Table BranchColumnName="EXPM_BRANCH_ID">dbo.EXPENSE_MASTER</Table>
+      <Table BranchColumnName="CLG_BRANCH_ID">dbo.COLLEGE</Table>
+      <Table BranchColumnName="FPKG_BRANCH_ID">dbo.FEES_PACKAGES</Table>
+      <Table BranchColumnName="FSTR_BRANCH_ID">dbo.FEE_STRUCTURE</Table>
+      <Table BranchColumnName="PKGI_BRANCH_ID">dbo.PACKAGE_INSTALLMENT</Table>
+      <Table BranchColumnName="LGN_BRANCH_ID">dbo.LOGIN</Table>
+      <Table BranchColumnName="RM_BRANCH_ID">dbo.ROLE_MASTER</Table>
+      <Table BranchColumnName="RP_BRANCH_ID">dbo.ROLE_PRIVILEGES</Table>
+      <Table BranchColumnName="UR_BRANCH_ID">dbo.USER_ROLES</Table>
+      <Table BranchColumnName="ENQ_BRANCH_ID">dbo.ENQUIRY</Table>
+      <Table BranchColumnName="STMT_BRANCH_ID">dbo.STUDENT_MASTER</Table>
+      <Table BranchColumnName="FCLT_BRANCH_ID">dbo.FACULTY</Table>
+      <Table BranchColumnName="BIOM_BRANCH_ID">dbo.BIOMERIC_MAPPING</Table>
+      <Table BranchColumnName="FOLU_BRANCH_ID">dbo.FOLLOW_UP</Table>
+      <Table BranchColumnName="ATTD_BRANCH_ID">dbo.ATTENDANCE</Table>
+      <Table BranchColumnName="ATL_BRANCH_ID">dbo.ATTENDENCE_LOG</Table>
+      <Table BranchColumnName="FEE_BRANCH_ID">dbo.FEES</Table>
+      <Table BranchColumnName="STUD_BRANCH_ID">dbo.STUDENT</Table>
+      <Table BranchColumnName="STAM_BRANCH_ID">dbo.STUDENT_ADMISSION</Table>
+      <Table BranchColumnName="STFL_BRANCH_ID">dbo.STUDENT_FACILITIES</Table>
+      <Table BranchColumnName="INSD_BRANCH_ID">dbo.INSTALLMENTS_DETAILS</Table>
+      <Table BranchColumnName="TRNC_BRANCH_ID">dbo.TRANSACTION</Table>
+      <Table BranchColumnName="PDEX_BRANCH_ID">dbo.PAID_EXPENSES</Table>
+      <Table BranchColumnName="CHQ_BRANCH_ID">dbo.CHEQUE_DETAILS</Table>
+      <Table BranchColumnName="STFD_BRANCH_ID">dbo.STUDENT_FEES_DETAILS</Table>
+      <Table BranchColumnName="SUBM_BRANCH_ID">dbo.SUBJECT_MASTER</Table>
+      <Table BranchColumnName="SUBF_BRANCH_ID">dbo.SUBJECT_FACULTY</Table>
+      <Table BranchColumnName="TMTL_BRANCH_ID">dbo.TIME_TABLE</Table>
+      <Table BranchColumnName="TEST_BRANCH_ID">dbo.TEST_MASTER</Table>
+      <Table BranchColumnName="TSUB_BRANCH_ID">dbo.TEST_SUBJECTS</Table>
+      <Table BranchColumnName="STTD_BRANCH_ID">dbo.STUDENT_TEST_DETAILS</Table>
+      <Table BranchColumnName="MARK_BRANCH_ID">dbo.MARKS</Table>
+      <Table BranchColumnName="STAC_BRANCH_ID">dbo.STUDENT_ARCHIVAL</Table>
+
+    </Tables>
+
+    <MergeStrategy>MergeWithDelete</MergeStrategy>
+    <AuditColumns>
+    </AuditColumns>
+    <IgnoreAuditColumnsOnExport>true</IgnoreAuditColumnsOnExport>
+    <UseAuditColumnsOnImport>false</UseAuditColumnsOnImport>
+  </Job>
+
+  <Job>
+    <Name>ExportAll</Name>
+    <ConnectionString>server=DESKTOP-1ACIHC3\MSSQLEXPRESS;database=CMV1.1;User ID=sa;Password=sa</ConnectionString>
+    <Tables>
+      <Table BranchColumnName="">dbo.BRANCH_MASTER</Table>
+      <Table BranchColumnName="STRM_BRANCH_ID">dbo.STREAM</Table>
+      <Table BranchColumnName="STD_BRANCH_ID">dbo.STANDARD</Table>
+      <Table BranchColumnName="BTCH_BRANCH_ID">dbo.BATCH</Table>
+      <Table BranchColumnName="ACT_BRANCH_ID">dbo.GLB_ACCOUNTS</Table>
+      <Table BranchColumnName="HOLM_BRANCH_ID">dbo.HOLIDAY_MASTER</Table>
+      <Table BranchColumnName="EXPM_BRANCH_ID">dbo.EXPENSE_MASTER</Table>
+      <Table BranchColumnName="CLG_BRANCH_ID">dbo.COLLEGE</Table>
+      <Table BranchColumnName="FPKG_BRANCH_ID">dbo.FEES_PACKAGES</Table>
+      <Table BranchColumnName="FSTR_BRANCH_ID">dbo.FEE_STRUCTURE</Table>
+      <Table BranchColumnName="PKGI_BRANCH_ID">dbo.PACKAGE_INSTALLMENT</Table>
+      <Table BranchColumnName="LGN_BRANCH_ID">dbo.LOGIN</Table>
+      <Table BranchColumnName="RM_BRANCH_ID">dbo.ROLE_MASTER</Table>
+      <Table BranchColumnName="RP_BRANCH_ID">dbo.ROLE_PRIVILEGES</Table>
+      <Table BranchColumnName="UR_BRANCH_ID">dbo.USER_ROLES</Table>
+      <Table BranchColumnName="ENQ_BRANCH_ID">dbo.ENQUIRY</Table>
+      <Table BranchColumnName="STMT_BRANCH_ID">dbo.STUDENT_MASTER</Table>
+      <Table BranchColumnName="FCLT_BRANCH_ID">dbo.FACULTY</Table>
+      <Table BranchColumnName="BIOM_BRANCH_ID">dbo.BIOMERIC_MAPPING</Table>
+      <Table BranchColumnName="FOLU_BRANCH_ID">dbo.FOLLOW_UP</Table>
+      <Table BranchColumnName="ATTD_BRANCH_ID">dbo.ATTENDANCE</Table>
+      <Table BranchColumnName="ATL_BRANCH_ID">dbo.ATTENDENCE_LOG</Table>
+      <Table BranchColumnName="FEE_BRANCH_ID">dbo.FEES</Table>
+
+      <Table BranchColumnName="STUD_BRANCH_ID">dbo.STUDENT</Table>
+      <Table BranchColumnName="STAM_BRANCH_ID">dbo.STUDENT_ADMISSION</Table>
+      <Table BranchColumnName="STFL_BRANCH_ID">dbo.STUDENT_FACILITIES</Table>
+      <Table BranchColumnName="INSD_BRANCH_ID">dbo.INSTALLMENTS_DETAILS</Table>
+      <Table BranchColumnName="TRNC_BRANCH_ID">dbo.TRANSACTION</Table>
+      <Table BranchColumnName="PDEX_BRANCH_ID">dbo.PAID_EXPENSES</Table>
+
+      <Table BranchColumnName="CHQ_BRANCH_ID">dbo.CHEQUE_DETAILS</Table>
+      <Table BranchColumnName="STFD_BRANCH_ID">dbo.STUDENT_FEES_DETAILS</Table>
+      <Table BranchColumnName="SUBM_BRANCH_ID">dbo.SUBJECT_MASTER</Table>
+      <Table BranchColumnName="SUBF_BRANCH_ID">dbo.SUBJECT_FACULTY</Table>
+      <Table BranchColumnName="TMTL_BRANCH_ID">dbo.TIME_TABLE</Table>
+      <Table BranchColumnName="TEST_BRANCH_ID">dbo.TEST_MASTER</Table>
+      <Table BranchColumnName="TSUB_BRANCH_ID">dbo.TEST_SUBJECTS</Table>
+      <Table BranchColumnName="STTD_BRANCH_ID">dbo.STUDENT_TEST_DETAILS</Table>
+      <Table BranchColumnName="MARK_BRANCH_ID">dbo.MARKS</Table>
+      <Table BranchColumnName="STAC_BRANCH_ID">dbo.STUDENT_ARCHIVAL</Table>
+      <Table BranchColumnName="">dbo.SYSTEM_PRM</Table>
+      <Table BranchColumnName="">dbo.TEMPLATE</Table>
+      <Table BranchColumnName="">dbo.FUNCTION_MASTER</Table>
+
+    </Tables>
+
+    <MergeStrategy>MergeWithDelete</MergeStrategy>
+    <AuditColumns>
+
+    </AuditColumns>
+    <IgnoreAuditColumnsOnExport>true</IgnoreAuditColumnsOnExport>
+    <UseAuditColumnsOnImport>false</UseAuditColumnsOnImport>
+  </Job>
+
+
+
+  <Job>
+    <Name>Import</Name>
+    <Tables>
+      <Table BranchColumnName="">dbo.BRANCH_MASTER</Table>
+      <Table BranchColumnName="STRM_BRANCH_ID">dbo.STREAM</Table>
+      <Table BranchColumnName="STD_BRANCH_ID">dbo.STANDARD</Table>
+      <Table BranchColumnName="BTCH_BRANCH_ID">dbo.BATCH</Table>
+      <Table BranchColumnName="ACT_BRANCH_ID">dbo.GLB_ACCOUNTS</Table>
+      <Table BranchColumnName="HOLM_BRANCH_ID">dbo.HOLIDAY_MASTER</Table>
+      <Table BranchColumnName="EXPM_BRANCH_ID">dbo.EXPENSE_MASTER</Table>
+      <Table BranchColumnName="CLG_BRANCH_ID">dbo.COLLEGE</Table>
+      <Table BranchColumnName="FPKG_BRANCH_ID">dbo.FEES_PACKAGES</Table>
+      <Table BranchColumnName="FSTR_BRANCH_ID">dbo.FEE_STRUCTURE</Table>
+      <Table BranchColumnName="PKGI_BRANCH_ID">dbo.PACKAGE_INSTALLMENT</Table>
+      <Table BranchColumnName="LGN_BRANCH_ID">dbo.LOGIN</Table>
+      <Table BranchColumnName="RM_BRANCH_ID">dbo.ROLE_MASTER</Table>
+      <Table BranchColumnName="RP_BRANCH_ID">dbo.ROLE_PRIVILEGES</Table>
+      <Table BranchColumnName="UR_BRANCH_ID">dbo.USER_ROLES</Table>
+      <Table BranchColumnName="ENQ_BRANCH_ID">dbo.ENQUIRY</Table>
+      <Table BranchColumnName="STMT_BRANCH_ID">dbo.STUDENT_MASTER</Table>
+      <Table BranchColumnName="FCLT_BRANCH_ID">dbo.FACULTY</Table>
+      <Table BranchColumnName="BIOM_BRANCH_ID">dbo.BIOMERIC_MAPPING</Table>
+      <Table BranchColumnName="FOLU_BRANCH_ID">dbo.FOLLOW_UP</Table>
+      <Table BranchColumnName="ATTD_BRANCH_ID">dbo.ATTENDANCE</Table>
+      <Table BranchColumnName="ATL_BRANCH_ID">dbo.ATTENDENCE_LOG</Table>
+      <Table BranchColumnName="FEE_BRANCH_ID">dbo.FEES</Table>
+      <Table BranchColumnName="STUD_BRANCH_ID">dbo.STUDENT</Table>
+      <Table BranchColumnName="STAM_BRANCH_ID">dbo.STUDENT_ADMISSION</Table>
+      <Table BranchColumnName="STFL_BRANCH_ID">dbo.STUDENT_FACILITIES</Table>
+      <Table BranchColumnName="INSD_BRANCH_ID">dbo.INSTALLMENTS_DETAILS</Table>
+      <Table BranchColumnName="TRNC_BRANCH_ID">dbo.TRANSACTION</Table>
+      <Table BranchColumnName="PDEX_BRANCH_ID">dbo.PAID_EXPENSES</Table>
+      <Table BranchColumnName="CHQ_BRANCH_ID">dbo.CHEQUE_DETAILS</Table>
+      <Table BranchColumnName="STFD_BRANCH_ID">dbo.STUDENT_FEES_DETAILS</Table>
+      <Table BranchColumnName="SUBM_BRANCH_ID">dbo.SUBJECT_MASTER</Table>
+      <Table BranchColumnName="SUBF_BRANCH_ID">dbo.SUBJECT_FACULTY</Table>
+      <Table BranchColumnName="TMTL_BRANCH_ID">dbo.TIME_TABLE</Table>
+      <Table BranchColumnName="TEST_BRANCH_ID">dbo.TEST_MASTER</Table>
+      <Table BranchColumnName="TSUB_BRANCH_ID">dbo.TEST_SUBJECTS</Table>
+      <Table BranchColumnName="STTD_BRANCH_ID">dbo.STUDENT_TEST_DETAILS</Table>
+      <Table BranchColumnName="MARK_BRANCH_ID">dbo.MARKS</Table>
+      <Table BranchColumnName="STAC_BRANCH_ID">dbo.STUDENT_ARCHIVAL</Table>
+    </Tables>
+    <MergeStrategy>MergeWithDelete</MergeStrategy>
+    <AuditColumns>
+    </AuditColumns>
+    <IgnoreAuditColumnsOnExport>true</IgnoreAuditColumnsOnExport>
+    <UseAuditColumnsOnImport>false</UseAuditColumnsOnImport>
+  </Job>
+
+  <Job>
+    <Name>ImportAll</Name>
+    <Tables>
+      <Table BranchColumnName="">dbo.BRANCH_MASTER</Table>
+      <Table BranchColumnName="STRM_BRANCH_ID">dbo.STREAM</Table>
+      <Table BranchColumnName="STD_BRANCH_ID">dbo.STANDARD</Table>
+      <Table BranchColumnName="BTCH_BRANCH_ID">dbo.BATCH</Table>
+      <Table BranchColumnName="ACT_BRANCH_ID">dbo.GLB_ACCOUNTS</Table>
+      <Table BranchColumnName="HOLM_BRANCH_ID">dbo.HOLIDAY_MASTER</Table>
+      <Table BranchColumnName="EXPM_BRANCH_ID">dbo.EXPENSE_MASTER</Table>
+      <Table BranchColumnName="CLG_BRANCH_ID">dbo.COLLEGE</Table>
+      <Table BranchColumnName="FPKG_BRANCH_ID">dbo.FEES_PACKAGES</Table>
+      <Table BranchColumnName="FSTR_BRANCH_ID">dbo.FEE_STRUCTURE</Table>
+      <Table BranchColumnName="PKGI_BRANCH_ID">dbo.PACKAGE_INSTALLMENT</Table>
+      <Table BranchColumnName="LGN_BRANCH_ID">dbo.LOGIN</Table>
+      <Table BranchColumnName="RM_BRANCH_ID">dbo.ROLE_MASTER</Table>
+      <Table BranchColumnName="RP_BRANCH_ID">dbo.ROLE_PRIVILEGES</Table>
+      <Table BranchColumnName="UR_BRANCH_ID">dbo.USER_ROLES</Table>
+      <Table BranchColumnName="ENQ_BRANCH_ID">dbo.ENQUIRY</Table>
+      <Table BranchColumnName="STMT_BRANCH_ID">dbo.STUDENT_MASTER</Table>
+      <Table BranchColumnName="FCLT_BRANCH_ID">dbo.FACULTY</Table>
+      <Table BranchColumnName="BIOM_BRANCH_ID">dbo.BIOMERIC_MAPPING</Table>
+      <Table BranchColumnName="FOLU_BRANCH_ID">dbo.FOLLOW_UP</Table>
+      <Table BranchColumnName="ATTD_BRANCH_ID">dbo.ATTENDANCE</Table>
+      <Table BranchColumnName="ATL_BRANCH_ID">dbo.ATTENDENCE_LOG</Table>
+      <Table BranchColumnName="FEE_BRANCH_ID">dbo.FEES</Table>
+
+      <Table BranchColumnName="STUD_BRANCH_ID">dbo.STUDENT</Table>
+      <Table BranchColumnName="STAM_BRANCH_ID">dbo.STUDENT_ADMISSION</Table>
+      <Table BranchColumnName="STFL_BRANCH_ID">dbo.STUDENT_FACILITIES</Table>
+      <Table BranchColumnName="INSD_BRANCH_ID">dbo.INSTALLMENTS_DETAILS</Table>
+      <Table BranchColumnName="TRNC_BRANCH_ID">dbo.TRANSACTION</Table>
+      <Table BranchColumnName="PDEX_BRANCH_ID">dbo.PAID_EXPENSES</Table>
+
+      <Table BranchColumnName="CHQ_BRANCH_ID">dbo.CHEQUE_DETAILS</Table>
+      <Table BranchColumnName="STFD_BRANCH_ID">dbo.STUDENT_FEES_DETAILS</Table>
+      <Table BranchColumnName="SUBM_BRANCH_ID">dbo.SUBJECT_MASTER</Table>
+      <Table BranchColumnName="SUBF_BRANCH_ID">dbo.SUBJECT_FACULTY</Table>
+      <Table BranchColumnName="TMTL_BRANCH_ID">dbo.TIME_TABLE</Table>
+      <Table BranchColumnName="TEST_BRANCH_ID">dbo.TEST_MASTER</Table>
+      <Table BranchColumnName="TSUB_BRANCH_ID">dbo.TEST_SUBJECTS</Table>
+      <Table BranchColumnName="STTD_BRANCH_ID">dbo.STUDENT_TEST_DETAILS</Table>
+      <Table BranchColumnName="MARK_BRANCH_ID">dbo.MARKS</Table>
+      <Table BranchColumnName="STAC_BRANCH_ID">dbo.STUDENT_ARCHIVAL</Table>
+      <Table BranchColumnName="">dbo.SYSTEM_PRM</Table>
+      <Table BranchColumnName="">dbo.TEMPLATE</Table>
+      <Table BranchColumnName="">dbo.FUNCTION_MASTER</Table>
+      
+      
+    </Tables>
+    <MergeStrategy>MergeWithDelete</MergeStrategy>
+    <AuditColumns>
+    </AuditColumns>
+    <IgnoreAuditColumnsOnExport>true</IgnoreAuditColumnsOnExport>
+    <UseAuditColumnsOnImport>false</UseAuditColumnsOnImport>
+
+  </Job>
+
+
+
+
+
+
+</Settings>

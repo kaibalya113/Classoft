@@ -1,0 +1,1 @@
+update FUNCTION_MASTER set FM_FORM_ASSEMBLY='ClassesManager.WinApp' WHERE FM_NAME='&Outstanding Payment'

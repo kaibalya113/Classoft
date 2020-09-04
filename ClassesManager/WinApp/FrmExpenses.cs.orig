@@ -1,0 +1,786 @@
+﻿using ClassManager.WinApp.UICommon;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace ClassManager.WinApp
+{
+    public partial class FrmExpenses : Form
+    {
+
+        List<Info.Account> lstAccount;
+        Info.RolePrivilege formPrevileges;
+        int branchID = Program.LoggedInUser.BranchId;
+        string sCaption = "Expences";
+        
+        List<Info.Expense> lstExpense = new List<Info.Expense>();
+      
+
+        /// <summary>
+        /// Initialize components
+        /// </summary>
+        public FrmExpenses()
+        {
+            InitializeComponent();
+        }
+
+        private void cmdCreateExpence_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ValidateExpenses())
+                {
+
+                    if (BLL.ExpenseHandler.createNewExpense(txtExpense.Text, branchID, true))
+                    {
+                        UICommon.WinForm.showStatus("Expense created successfully ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                        reloadExpense();
+                    }
+                    txtExpense.Text = "";
+                }
+            }
+            catch (Common.Exceptions.RecordAlreadyExistsException ex)
+            {
+                UICommon.WinForm.showStatus("Expense \"" + txtExpense.Text + "\" already exists", sCaption, this);
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showStatus("Following error occured\n\n" + ex.Message + "\n\nPlease contact System Admin if problem persists.Error has Occured", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+
+        }
+
+        private void cmdAddExpense_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ValidateExpenses())
+                {
+                    if (this.ValidateChildren(ValidationConstraints.Visible))
+                    {
+                        Info.Expense expense = new Info.Expense();
+                        expense.ExpenseId = (comboIndirectExpenses.SelectedItem as Info.Expense).ExpenseId;
+                        expense.Description = txtDescription.Text;
+                        expense.PaidTo = txtPaidTo.Text;
+                        expense.Amount = Convert.ToDecimal(txtAmount.Text);
+                        expense.Date = dateDt.Value;
+                        expense.Account.Id = (cmbAccounts.SelectedItem as Info.Account).Id;
+                        expense.IsExpense = true;
+                        
+                        if (BLL.ExpenseHandler.insertExpense(expense, Convert.ToInt32(branchID)))
+                        {
+
+                            UICommon.WinForm.showStatus("Expense added successfully", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                            // UICommon.WinForm.clearTextBoxes(tabPage2);
+                            clearForm();
+                        }
+                        else
+                        {  
+
+                            UICommon.WinForm.showStatus("Error adding expense please try later..Failure", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showStatus("Following error occured\n\n" + ex.Message + "\n\nPlease contact System Admin if problem persists.Error has Occured", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+
+            }
+        }
+        private void clearForm()
+        {
+            try
+            {
+                txtDescription.Text = "";
+                txtPaidTo.Text = "";
+                txtAmount.Text = "";
+                dateDt.Value = DateTime.Now.Date;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private bool ValidateExpenses()
+        {
+            if (tabExpense.SelectedIndex == 0)
+            {
+                if (comboIndirectExpenses.SelectedIndex == -1)
+                {
+                    UICommon.WinForm.showStatus("Please Select Expense Head", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    comboIndirectExpenses.Focus();
+                    return false;
+                }
+                else if (txtPaidTo.Text.Length == 0)
+                {
+                    UICommon.WinForm.showStatus("Please Enter Paid To for the Expense", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    txtPaidTo.Focus();
+                    return false;
+                }
+                else if (txtAmount.Text.Length == 0)
+                {
+                    UICommon.WinForm.showStatus("Please Enter Amount for the Expense", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    txtAmount.Focus();
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else if (tabExpense.SelectedIndex == 1)
+            {
+                if (txtExpense.Text.Length == 0)
+                {
+                    UICommon.WinForm.showStatus("Please Enter Value for Expense", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    txtExpense.Focus();
+                    return false;
+                }
+
+                return true;
+
+            }
+            return true;
+
+
+        }
+
+        private void Expenses_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                comboIndirectExpenses.DisplayMember = "expName";
+                comboIndirectExpenses.ValueMember = "expID";
+
+                //formatting datetimepicker
+                UICommon.WinForm.formatDateTimePicker(dateDt);
+
+                //fromDate = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+                //toDate = (DateTime)System.Data.SqlTypes.SqlDateTime.MaxValue;
+
+                //Hemlata(It will redirect the user to create screen if the expenses are not created)
+                if (comboIndirectExpenses.Items.Count == 0)
+                {
+                    tabExpense.SelectedIndex = 1;
+                    lblMsg.Visible = true;
+                }
+                else
+                {
+                    tabExpense.SelectedIndex = 0;
+                }
+
+                reloadExpense();
+                AssignEvent();
+
+                ApplyPrevileges();
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, sCaption, this);
+            }
+            
+        }
+
+        private void ApplyPrevileges()
+        {
+            try
+            {
+                int functionId = Convert.ToInt32(this.Tag.ToString());
+                formPrevileges = BLL.UserHandler.loggedInUser.privileges.Where(p => p.FunctionId == functionId).FirstOrDefault();
+                if(formPrevileges != null)
+                {
+                    if(formPrevileges.AllBranches == false)
+                    {
+                        chkShowAllBranch.Visible = false;
+                    }
+
+                    if(formPrevileges.Modify == false)
+                    {
+                        btnUpdatePaidExp.Visible = false;
+                    }
+
+                    if(formPrevileges.Create == false)
+                    {
+                        cmdCreateExpence.Visible = false;
+                        cmdAddExpense.Visible = false;
+                        tabPCreateExpense.Hide();
+                    }
+
+                    if(formPrevileges.Delete == false)
+                    {
+
+                    }
+                }  
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Reloads the expenses
+        /// </summary>
+        public void reloadExpense()
+        {
+
+            lstExpense = BLL.ExpenseHandler.loadExpensesDetails(true, Convert.ToInt32(branchID));
+            getAccounts(lstAccount);
+          
+          
+            comboIndirectExpenses.DataSource = lstExpense;
+            ADGVExpDetails.DataSource = lstExpense;
+
+
+
+        }
+
+        private void AssignEvent()
+        {
+            txtAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Common.Events.numOnly);
+            txtExpense.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Common.Events.charOnly);
+            txtPaidTo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Common.Events.charOnly);
+
+            adgvExpsnses.SortStringChanged += new System.EventHandler(Common.Events.sortGridView);
+            adgvExpsnses.FilterStringChanged += new System.EventHandler(Common.Events.filterGridView);
+        }
+
+        private void tabExpense_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabExpense.SelectedIndex == 2)
+            {
+                adgvExpsnses.DataSource = BLL.ExpenseHandler.getPaidExpense(false,true,branchID);
+            }
+            else if (tabExpense.SelectedIndex == 1)
+            {
+                reloadExpense();
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Common.ImportExport.ImportToExcel(adgvExpsnses);
+            }
+            catch (Exception ex)
+            {
+
+                UICommon.WinForm.showError(ex, "Please Install Excel So that Document can be Saved.", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+
+            }
+        }
+
+        private void ADGVExpDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            try
+            {
+                formatADGVExpDetails();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
+        }
+        public void formatADGVExpDetails()
+        {
+            try
+            {
+                //Hiding Columns
+                ADGVExpDetails.Columns["ExpenseId"].Visible = false;
+                ADGVExpDetails.Columns["IsDirectExp"].Visible = false;
+                ADGVExpDetails.Columns["IsExpense"].Visible = false;
+               
+                ADGVExpDetails.Columns["PaidTo"].Visible = false;
+                ADGVExpDetails.Columns["Amount"].Visible = false;
+                ADGVExpDetails.Columns["Description"].Visible = false;
+                ADGVExpDetails.Columns["Date"].Visible = false;
+                ADGVExpDetails.Columns["Account"].Visible = false;
+                ADGVExpDetails.Columns["Trasaction"].Visible = false;
+                ADGVExpDetails.Columns["BranchID"].Visible = false;
+
+                //Ordering positions of columns
+                ADGVExpDetails.Columns["ExpenseName"].DisplayIndex = 2;
+                //ADGVExpDetails.Columns["BranchID"].DisplayIndex = 3;
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private void ADGVExpDetails_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                Info.Expense objEx = new Info.Expense();
+                string description;
+                if (e.RowIndex != -1)
+                {
+                    if (e.ColumnIndex == ADGVExpDetails.Columns["btnDelete"].Index)
+                    {
+                        if(formPrevileges.Delete == false)
+                        {
+                            UICommon.WinForm.showStatus("You don't have permission to delete the expense, Please contact admin", "Delete Expense", this);
+                            return;
+                        }
+
+                        foreach (DataGridViewRow income in ADGVExpDetails.Rows)
+                        {
+                            if (income.Cells[0].Selected)
+                            {
+                                description = (income.Cells["ExpenseName"].Value).ToString();
+                                objEx = lstExpense.Find(ex => ex.ExpenseName == description);
+
+                                int returnCode = BLL.ExpenseHandler.deleteExpendeMaster(objEx.ExpenseId, objEx.IsExpense, objEx.ExpenseName, branchID);
+                                if (returnCode == 1)
+                                {
+                                    UICommon.WinForm.showStatus("Expense deleted successfully", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                                }
+                                else
+                                {
+                                    UICommon.WinForm.showStatus("Expense cannot be deleted as " + objEx.ExpenseName + " is being used", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                                }
+                            }
+
+                        }
+                    }
+                }
+                else if (e.ColumnIndex == ADGVExpDetails.Columns["btnUpdate"].Index)
+                {
+                    if (formPrevileges.Modify == false)
+                    {
+                        UICommon.WinForm.showStatus("You don't have permission to update the expense, Please contact admin", "Update Expense", this);
+                        return;
+                    }
+
+                    foreach (DataGridViewRow income in ADGVExpDetails.Rows)
+                    {
+                        if (income.Cells[1].Selected)
+                        {
+                            description = (income.Cells["ExpenseName"].Value).ToString();
+                            objEx = lstExpense.Find(ex => ex.ExpenseName == description);
+
+                            int returnCode = BLL.ExpenseHandler.UpdateExpenseMaster(objEx.ExpenseId, objEx.IsExpense, objEx.ExpenseName, branchID);
+                            if (returnCode == 1)
+                            {
+                                UICommon.WinForm.showStatus("Expense updated successfully", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                            }
+                            else
+                            {
+                                UICommon.WinForm.showStatus("Please use some different name to update details", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                            }
+                        }
+                    }
+                }
+                reloadExpense();
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+
+            }
+        }
+
+        private void adgvExpsnses_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //try
+            //{
+            //    DataTable dt = adgvExpsnses.DataSource as DataTable;
+            //    Info.Expense objExpense = new Info.Expense();
+            //    int returnCode=0;
+            //    if (e.ColumnIndex == adgvExpsnses.Columns["btnUpdateExp"].Index)
+            //    {
+            //        foreach (DataRow expense in dt.Rows)
+            //        {
+            //            if (expense[0] != null && expense[0].ToString() != "0")
+            //            {                            
+            //                objExpense.expenseID = Convert.ToInt32(expense["Id"]);
+            //                objExpense.paidTo = expense["Paid To"].ToString();
+            //                objExpense.amount = Convert.ToDecimal(expense["Amount"].ToString());
+            //                objExpense.date = Convert.ToDateTime(expense["Date"]);
+            //                objExpense.financialYear = expense["FinancialYear"].ToString();
+            //                objExpense.BranchID = Convert.ToInt32(expense["Branch_ID"]);
+            //                returnCode = BLL.ExpenseHandler.UpdatePaidExpenseOrIncome(objExpense);
+
+            //            }
+
+            //        }
+            //        if (returnCode == 1)
+            //        {
+            //            UICommon.WinForm.showStatus("Expense updated successfully", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+            //        }
+            //        else
+            //        {
+            //            UICommon.WinForm.showStatus("Error occured while updating.", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            //        }
+            //    }
+            //    adgvExpsnses.DataSource = BLL.ExpenseHandler.getPaidExpense(true, branchID);
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    throw ex;
+            //}
+        }
+        private void adgvExpsnses_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            try
+            {
+                formatadgvExpenses();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void formatadgvExpenses()
+        {
+            try
+            {
+                if (adgvExpsnses.Columns.Contains("Category"))
+                {
+                    adgvExpsnses.Columns["Category"].ReadOnly = true;
+                }
+                if (adgvExpsnses.Columns.Contains("PDEX_DATE"))
+                {
+                    adgvExpsnses.Columns["PDEX_DATE"].HeaderText = "Date";
+                    adgvExpsnses.Columns["PDEX_DATE"].DefaultCellStyle = UICommon.WinForm.GridDateFormat;
+                }
+                if (adgvExpsnses.Columns.Contains("PDEX_DESC"))
+                {
+                    adgvExpsnses.Columns["PDEX_DESC"].HeaderText = "Desccription";
+                }
+                if (adgvExpsnses.Columns.Contains("PDEX_PAID_TO"))
+                {
+                    adgvExpsnses.Columns["PDEX_PAID_TO"].HeaderText = "PaidTo";
+                }
+                if (adgvExpsnses.Columns.Contains("PDEX_BRANCH_ID"))
+                {
+                    adgvExpsnses.Columns["PDEX_BRANCH_ID"].Visible = false;
+                }
+                if (adgvExpsnses.Columns.Contains("PDEX_ID"))
+                {
+                    adgvExpsnses.Columns["PDEX_ID"].Visible = false;
+                }
+                if (adgvExpsnses.Columns.Contains("PDEX_ACCNT_ID"))
+                {
+                    adgvExpsnses.Columns["PDEX_ACCNT_ID"].Visible = false;
+                }
+                if (adgvExpsnses.Columns.Contains("ACT_NAME"))
+                {
+                    adgvExpsnses.Columns["ACT_NAME"].HeaderText = "Account";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void btnUpdatePaidExp_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt = adgvExpsnses.DataSource as DataTable;
+                Info.Expense objExpense = new Info.Expense();
+                int returnCode = 0;
+                foreach (DataRow expense in dt.Rows)
+                {
+                    if (expense[0] != null && expense[0].ToString() != "0")
+                    {
+                        objExpense.ExpenseId = Convert.ToInt32(expense["PDEX_ID"]);
+                        objExpense.PaidTo = expense["PDEX_PAID_TO"].ToString();
+                        objExpense.Amount = Convert.ToDecimal(expense["Amount"].ToString());
+                        objExpense.Date = Convert.ToDateTime(expense["PDEX_DATE"]);
+                        objExpense.Description = Convert.ToString(expense["PDEX_DESC"]);
+                        objExpense.Account.Id = Convert.ToInt32(expense["PDEX_ACCNT_ID"]);
+                        objExpense.BranchID = Convert.ToInt32(expense["PDEX_BRANCH_ID"]);
+                        returnCode = BLL.ExpenseHandler.UpdatePaidExpenseOrIncome(objExpense);
+                    }
+                }
+                if (returnCode == 1)
+                {
+                    UICommon.WinForm.showStatus("Expense updated successfully", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+
+                adgvExpsnses.DataSource = BLL.ExpenseHandler.getPaidExpense(false,true, branchID);
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+
+            }
+        }
+
+        private void adgvExpsnses_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (adgvExpsnses.CurrentCell.ColumnIndex == 3) //Desired Column
+            {
+                TextBox tb = e.Control as TextBox;
+
+                if (tb != null)
+                {
+                    tb.KeyPress += new KeyPressEventHandler(Common.Events.numOnly);
+                }
+            }
+        }
+
+        private void showMaxExpense(DataTable dt)
+        {
+            try
+            {
+
+                if (adgvExpsnses.Rows.Count != 0)
+                {
+                    panelMaxExp.Visible = true;
+
+                }
+                else
+                {
+                    panelMaxExp.Visible = false;
+                }
+
+                DataView expenseView = new DataView(dt);
+                if (expenseView.Table.Rows.Count > 0)
+                {
+                    Decimal maxAmount = adgvExpsnses.Rows.Cast<DataGridViewRow>()
+                                .Max(t => Convert.ToDecimal(t.Cells["Total"].Value));
+
+                    string name = ((from DataRow dr in dt.Rows where Convert.ToDecimal(dr["Total"]) == maxAmount select (string)dr[0]).FirstOrDefault());
+
+
+                    lblNameAndAmount.Text = name + ":  " + maxAmount.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+        private void cmbViewExpenses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                branchID = WinApp.Program.LoggedInUser.BranchId;
+                if (chkDtFilter.Checked == true)
+                {
+                    if (cmbViewExpenses.SelectedIndex == 1)
+                    {
+                        adgvExpsnses.DataSource = BLL.ExpenseHandler.getCategoryWiseCollection(true, branchID, dtpFromDate.Value, dtpToDate.Value);
+                        showMaxExpense((DataTable)adgvExpsnses.DataSource);
+                        btnUpdatePaidExp.Enabled = false;
+                    }
+                    else
+                    {
+                        adgvExpsnses.DataSource = BLL.ExpenseHandler.getPaidExpense(false, true, branchID, dtpFromDate.Value, dtpToDate.Value);
+                        btnUpdatePaidExp.Enabled = true;
+                        panelMaxExp.Visible = false;
+                    }
+                }
+                
+                else
+                {
+                    if (cmbViewExpenses.SelectedIndex == 0)
+                    {
+                        panelMaxExp.Visible = false;
+                        btnUpdatePaidExp.Enabled = true;
+                        adgvExpsnses.DataSource = BLL.ExpenseHandler.getPaidExpense(false, true, branchID);
+
+                    }
+                    else if (cmbViewExpenses.SelectedIndex == 1)
+                    {
+                        
+
+                        panelMaxExp.Visible = true;
+                        
+                        btnUpdatePaidExp.Enabled = false;
+                        dt = BLL.ExpenseHandler.getCategoryWiseCollection(true, branchID);
+                        if (dt.Rows.Count != 0)
+                        {
+                            adgvExpsnses.DataSource = dt;
+                            showMaxExpense(dt);
+                        }
+                        else
+                        {
+                            UICommon.WinForm.showStatus("No records to display.", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                            adgvExpsnses.DataSource = null;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+        private void chkShowAllBranch_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chkShowAllBranch.Checked == true)
+            {
+                branchID = '%';
+            }
+            else
+            {
+                branchID = Program.LoggedInUser.BranchId;
+            }
+            adgvExpsnses.DataSource = BLL.ExpenseHandler.getPaidExpense(false, true, branchID);
+        }
+        private void dtpToDate_CloseUp(object sender, EventArgs e)
+        {
+            if (validateDates())
+            {
+                adgvExpsnses.DataSource = BLL.ExpenseHandler.getPaidExpense(false, true, branchID, dtpFromDate.Value, dtpToDate.Value);
+            }
+        }
+
+        /// <summary>
+        /// It will filter the accounts
+        /// </summary>
+        /// <param name="lstAccount"></param>
+        public void getAccounts(List<Info.Account> lstAccount)
+        {
+            try
+            {
+                lstAccount = BLL.AccountHandller.getAccounts(Program.LoggedInUser.BranchId);
+                cmbAccounts.DataSource = lstAccount;
+                if (cmbAccounts.Items.Count > 0)
+                {
+                    cmbAccounts.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void chkDtFilter_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (chkDtFilter.Checked == false)
+                {
+                    panel3.Visible = false;
+                }
+                else if (chkDtFilter.Checked == true)
+                {
+                    panel3.Visible = true;
+                    //dtpFromDate.Visible = true;
+                    //dtpToDate.Visible = true;
+                    formateLastTabDates();
+                    if (cmbViewExpenses.SelectedIndex == 1)
+                    {
+                        adgvExpsnses.DataSource = BLL.ExpenseHandler.getCategoryWiseCollection(true, branchID, dtpFromDate.Value, dtpToDate.Value);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        private void formateLastTabDates()
+        {
+            try
+            {
+                WinForm.formatDateTimePicker(dtpFromDate);
+                WinForm.formatDateTimePicker(dtpToDate);
+                WinForm.setDate(dtpFromDate, dtpToDate);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        private void lnkAddAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+
+                //FrmCreateAccount objCreateAccount = (FrmCreateAccount)UICommon.FormFactory.GetForm(Forms.FrmCreateAccount, this.MdiParent);
+                //objCreateAccount.Visible = true;
+                FrmCreateAccount objCreateAccount = new FrmCreateAccount();
+                UICommon.WinForm.openForm(objCreateAccount,cmbAccounts);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private void dtpFromDate_CloseUp(object sender, EventArgs e)
+        {
+            if (validateDates())
+            {
+                adgvExpsnses.DataSource = BLL.ExpenseHandler.getPaidExpense(false, true, branchID, dtpFromDate.Value, dtpToDate.Value);
+            }
+        }
+        private  bool validateDates()
+        {
+            try
+            {
+                if (dtpToDate.Value < dtpFromDate.Value)
+                {
+                    WinForm.showStatus("Invalid Date.", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    formateLastTabDates();
+                    return false;
+                    
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void dtpFromDate_ValueChanged(object sender, EventArgs e)
+        {
+            dtpToDate.MinDate = dtpFromDate.Value;
+        }
+
+        private void ADGVExpDetails_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            UICommon.WinForm.ADGVSerialNo(ADGVExpDetails, e);
+        }
+
+        private void adgvExpsnses_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            UICommon.WinForm.ADGVSerialNo(adgvExpsnses,e);
+        }
+
+       
+    }
+}

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CB636376-A373-4570-B4D6-54438CC5F589}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Classmanager.Info</RootNamespace>
+    <AssemblyName>ClassManager.Info</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="Batch.cs" />
+    <Compile Include="BranchMaster.cs" />
+    <Compile Include="Cheque.cs" />
+    <Compile Include="GitCredentials.cs" />
+    <Compile Include="Invoice.cs" />
+    <Compile Include="InvoiceDetails.cs" />
+    <Compile Include="MappedDriveResolver.cs" />
+    <Compile Include="measurements.cs" />
+    <Compile Include="PaymentDetails.cs" />
+    <Compile Include="Reporting\CommonReportData.cs" />
+    <Compile Include="EntityManager.cs" />
+    <Compile Include="MarkSheet.cs" />
+    <Compile Include="ComboItem.cs" />
+    <Compile Include="Course.cs" />
+    <Compile Include="DueNotification.cs" />
+    <Compile Include="EmailConfig.cs" />
+    <Compile Include="DailyReport.cs" />
+    <Compile Include="Enquiry.cs" />
+    <Compile Include="ExpCollection.cs" />
+    <Compile Include="Expense.cs" />
+    <Compile Include="ExpenseTypes.cs" />
+    <Compile Include="Faculty.cs" />
+    <Compile Include="Fees.cs" />
+    <Compile Include="FeesCollection.cs" />
+    <Compile Include="FeesCollRpt.cs" />
+    <Compile Include="FeesPackage.cs" />
+    <Compile Include="FeeStructure.cs" />
+    <Compile Include="Followup.cs" />
+    <Compile Include="FunctionMaster.cs" />
+    <Compile Include="Holiday.cs" />
+    <Compile Include="InstallmentDetail.cs" />
+    <Compile Include="Lecture.cs" />
+    <Compile Include="Marketing.cs" />
+    <Compile Include="PackageInstallment.cs" />
+    <Compile Include="PackageType.cs" />
+    <Compile Include="PaymentMode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\FeeReceiptReportData.cs" />
+    <Compile Include="Reporting\IReportData.cs" />
+    <Compile Include="Reporting\PrintConfig.cs" />
+    <Compile Include="Reports.cs" />
+    <Compile Include="RoleMaster.cs" />
+    <Compile Include="RolePrivilege.cs" />
+    <Compile Include="ScheduledLecture.cs" />
+    <Compile Include="SmsConfig.cs" />
+    <Compile Include="SmsParameter.cs" />
+    <Compile Include="Standard.cs" />
+    <Compile Include="Stream.cs" />
+    <Compile Include="Student.cs" />
+    <Compile Include="StudentFacilities.cs" />
+    <Compile Include="StudentMaster.cs" />
+    <Compile Include="StudMigration.cs" />
+    <Compile Include="SubjectMaster.cs" />
+    <Compile Include="SysParam.cs" />
+    <Compile Include="TemplateType.cs" />
+    <Compile Include="TestMaster.cs" />
+    <Compile Include="TestSubject.cs" />
+    <Compile Include="Transaction.cs" />
+    <Compile Include="User.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{b052a60b-d72f-4703-a4e7-dc11234c72fe}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

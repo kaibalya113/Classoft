@@ -1,0 +1,1 @@
+alter table sms_details alter column SMSD_SENT_TIME datetime

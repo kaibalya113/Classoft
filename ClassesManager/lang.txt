@@ -1,0 +1,8 @@
+﻿lblmemberShipNo=MemberShip No;
+txtMemberShipNo=Admission Form No;
+lblMembershipNo=MemberShip No;
+validity_from=Validity Start:;
+validity_to=To:;
+txtParentContact=Decision Maker Contact;
+Membership_No=Form No;
+AdmissionNo=ID;

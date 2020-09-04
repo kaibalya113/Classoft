@@ -1,0 +1,2 @@
+Alter table branch_master add MEMBERSHIP_COUNT int
+update branch_master set MEMBERSHIP_COUNT = 0

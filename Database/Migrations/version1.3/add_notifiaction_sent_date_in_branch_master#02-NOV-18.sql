@@ -1,0 +1,1 @@
+alter table branch_master add NOTIFICATION_SENT_DATE varchar(50);

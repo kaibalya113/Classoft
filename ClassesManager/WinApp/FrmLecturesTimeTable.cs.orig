@@ -1,0 +1,999 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using ClassManager.Common;
+using ClassManager.Info;
+using ClassManager.BLL;
+namespace ClassManager.WinApp
+{
+    public partial class FrmLecturesTimeTable : Form
+    {
+
+        Lecture lect = new Lecture();
+        bool allow;
+        string sCaption = "LecturesTimeTable";
+        string branchID = WinApp.Program.LoggedInUser.BranchId.ToString();
+
+        List<Lecture> lstlect = new List<Lecture>();
+        bool allowIndexChanges = false;
+        public FrmLecturesTimeTable()
+        {
+            InitializeComponent();
+        }
+
+        private void LecturesTimeTable_Load(object sender, EventArgs e)
+        {
+
+            populateStream();
+            cmbCourseType.Items.Clear();
+            cmbCourse.Items.Clear();
+            cmbCourseType.Items.Add(new ComboItem("%", "All", null));
+            //cmbCourse.Items.Add(new ComboItem("%", "All", null));
+
+            cmbBatch.Items.Clear();
+            cmbBtch.Items.Clear();
+            cmbBatch.Items.Add(new ComboItem("%", "All", null));
+            //cmbBtch.Items.Add(new ComboItem("%", "All", null));
+            cmbCourse.SelectedItem = 0;
+            cmbCourseType.SelectedIndex = 0;
+
+            cmbBatch.SelectedIndex = 0;
+            cmbBtch.SelectedItem = 0;
+            fromTime.CustomFormat = "HH:mm";
+            toTime.CustomFormat = "HH:mm";
+            allowIndexChanges = true;
+            AssignEvents();
+        }
+
+        private void AssignEvents()
+        {
+            ADGVLectureDetails.SortStringChanged += new System.EventHandler(Common.Events.sortGridView);
+            ADGVLectureDetails.FilterStringChanged += new System.EventHandler(Common.Events.filterGridView);
+            ADGVLectures.SortStringChanged += new System.EventHandler(Common.Events.sortGridView);
+            ADGVLectures.FilterStringChanged += new System.EventHandler(Common.Events.filterGridView);
+
+        }
+
+        private void populateStream()
+        {
+            try
+            {
+                cmbStream.Items.Clear();
+                cmbStream.Items.Add(new ComboItem("%", "All", null));
+                List<Stream> lstStream = StreamHandller.getStreams(branchID);
+                if (lstStream.Count != 0)
+                {
+                    foreach (Stream objStream in lstStream)
+                    {
+                        cmbStream.Items.Add(new ComboItem(objStream.ID.ToString(), objStream.Name, objStream));
+                    }
+                    cmbStream.SelectedIndex = 0;
+                    cmbStrm.SelectedItem = 1;
+                }
+                else
+                {
+                    UICommon.WinForm.showStatus("No Streams available ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void populateCourse()
+        {
+            try
+            {
+                cmbCourseType.Items.Clear();
+                cmbCourseType.Items.Add(new ComboItem("%", "All", null));
+                if (((cmbStream.SelectedItem as ComboItem).name) == "All")
+                {
+                    cmbCourseType.SelectedIndex = 0;
+                }
+                else
+                {
+                    List<Standard> lstStd = StandardHandller.getStandard(Program.LoggedInUser.BranchId, (cmbStream.Items[cmbStream.SelectedIndex] as ComboItem).strKey);
+                    if (lstStd.Count != 0)
+                    {
+                        foreach (Standard objStandard in lstStd)
+                        {
+                            cmbCourseType.Items.Add(new ComboItem(objStandard.Standardid.ToString(), objStandard.StandardName, objStandard));
+                        }
+                        cmbCourseType.SelectedIndex = 0;
+                        cmbCourseType_SelectedIndexChanged(cmbCourseType, new EventArgs());
+                    }
+                    else
+                    {
+                        UICommon.WinForm.showStatus("No Courses available ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void populateSubject()
+        {
+            try
+            {
+                lblSubject.Visible = true;
+                lblfaculty.Visible = true;
+                cmbSubj.Visible = true;
+                cmbFaculty.Visible = true;
+                cmbSubj.Items.Clear();
+
+                List<Info.SubjectMaster> lstSubjc = StandardHandller.getSubjectList(Program.LoggedInUser.BranchId, (cmbCourse.Items[cmbCourse.SelectedIndex] as ComboItem).key);
+
+                if (lstSubjc.Count != 0)
+                {
+                    foreach (Info.SubjectMaster objSubject in lstSubjc)
+                    {
+                        cmbSubj.Items.Add(new ComboItem(objSubject.SubjId, objSubject.SubjName));
+                    }
+
+                    cmbSubj.SelectedIndex = 0;
+                    //cmbSubj_SelectedIndexChanged(cmbSubj, new EventArgs());
+                }
+                else
+                {
+                    var selectPackage = UICommon.WinForm.showStatus("No Subjects available.\nDo you want to Add Subject ? ", MessageBoxButtons.YesNo, MessageBoxIcon.Information, sCaption, this);
+                    if (selectPackage == DialogResult.Yes)
+                    {
+                        try
+                        {
+                            UICommon.FormFactory.GetForm(UICommon.Forms.FrmSubjectMaster).Visible = true;
+                            this.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        private void populateBatch()
+        {
+            try
+            {
+                if (allowIndexChanges)
+                {
+                    allowIndexChanges = false;
+
+                    cmbBatch.Items.Clear();
+                    cmbBatch.Items.Add(new ComboItem("%", "All", null));
+                    if (((cmbCourseType.SelectedItem as ComboItem).name) == "All")
+                    {
+                        cmbBatch.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        List<Batch> lstBatch = StandardHandller.GetBatches((cmbCourseType.Items[cmbCourseType.SelectedIndex] as ComboItem).key, Program.LoggedInUser.BranchId);
+
+                        if (lstBatch.Count != 0)
+                        {
+                            foreach (Batch objBatch in lstBatch)
+                            {
+                                cmbBatch.Items.Add(new ComboItem(objBatch.id.ToString(), objBatch.Name, objBatch));
+                                Batch obj = new Batch();
+                                obj = lstBatch[0];
+                                fromTime.Value = (obj.FromTime == null) ? DateTime.Now : obj.FromTime.Value;
+                                toTime.Value = (obj.ToTime == null) ? DateTime.Now : obj.ToTime.Value;
+                                cmbBatch.SelectedIndex = 0;
+                                //cmbBatch_SelectedIndexChanged(cmbBatch, new EventArgs());
+                            }
+                        }
+                        else
+                        {
+                            UICommon.WinForm.showStatus("No Batches available ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                        }
+
+                    }
+                    allowIndexChanges = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void populateFaculty()
+        {
+            try
+            {
+                cmbFaculty.Items.Clear();
+                List<Info.Faculty> lstFaculty = StandardHandller.getFacultiesBySubject((cmbSubj.Items[cmbSubj.SelectedIndex] as ComboItem).key, branchID);
+
+                if (lstFaculty.Count != 0)
+                {
+                    foreach (Info.Faculty objFaculty in lstFaculty)
+                    {
+                        cmbFaculty.Items.Add(new ComboItem(objFaculty.FacultyID.ToString(), objFaculty.Name));
+                    }
+                    cmbFaculty.SelectedIndex = 0;
+                }
+                else
+                {
+                    UICommon.WinForm.showStatus("No Faculties available ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (ADGVLectures.Rows.Count == 0)
+                {
+                    UICommon.WinForm.showStatus("There Is No Data To Save", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+                else
+                {
+                    Info.Lecture objLect = new Info.Lecture();
+                    int retrnCode = 0;
+                    DataTable dt = new DataTable();
+                    lstlect= ADGVLectures.DataSource as List<Lecture>;
+                    objLect.BranchID = WinApp.Program.LoggedInUser.BranchId;
+                    if (lstlect.Count > 0)
+                    {
+                        foreach (Lecture objLecture in lstlect)
+                        {
+                            retrnCode = BLL.LectureHandler.saveLectures(objLecture);
+                        }
+                    }
+                    else if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            DateTime lectDate, fromdate, toDate, from, to;
+                            int lectID = Convert.ToInt32(dr["LectureID"]);
+                            lectDate = Convert.ToDateTime(dr["Date"]);
+                            from = Convert.ToDateTime(dr["FromTime"].ToString());
+                            to = Convert.ToDateTime(dr["ToTime"].ToString());
+                            fromdate = Convert.ToDateTime(lectDate.ToShortDateString() + " " + from.ToShortTimeString());
+                            toDate = Convert.ToDateTime(lectDate.ToShortDateString() + " " + to.ToShortTimeString());
+
+                            if (lectID != 0)
+                            {
+                                objLect.LectureID = lectID;
+                            }
+
+                            objLect.Stream.ID = Convert.ToInt32(dr["StreamId"]);
+                            objLect.Standard.Standardid = Convert.ToInt32(dr["StandardID"]);
+                            objLect.Batch.id = Convert.ToInt32(dr["BatchID"]);
+                            objLect.Date = Convert.ToDateTime(lectDate.ToShortDateString());
+                            objLect.Faculty.FacultyID = Convert.ToInt32(dr["FacId"]);
+                            objLect.FromTime = fromdate;
+                            objLect.ToTime = toDate;
+                            objLect.Subject.SubjId = Convert.ToInt32(dr["SubjId"]);
+                            objLect.Subject.SubjName = dr["SubjName"].ToString();
+                            objLect.BranchID = Convert.ToInt32(branchID);
+                            retrnCode = BLL.LectureHandler.saveLectures(objLect);
+                        }
+                    }
+
+
+                    if (retrnCode == 1 || retrnCode == 2)
+                    {
+                        UICommon.WinForm.showStatus("Lectures saved successfully ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    }
+
+                    else
+                    {
+                        UICommon.WinForm.showStatus("Can't save lecture", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    }
+
+                    lstlect = new List<Lecture>();
+                    ADGVLectures.DataSource = null;
+                    BatchLecture();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            clearAll();
+
+        }
+
+        private void clearAll()
+        {
+            try
+            {
+                ADGVLectures.DataSource = null;
+                lstlect = new List<Lecture>();
+
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+
+        }
+
+        private void cmbStream_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (allowIndexChanges)
+
+                    populateCourse();
+
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+        private void cmbCourseType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (allowIndexChanges)
+
+                    populateBatch();
+
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                allow = true;
+                if (ValidateControls())
+                {
+                    if (ValidateFaculty())
+                    {
+                        Lecture objLecture = new Lecture();
+                        DateTime lectDate, from, to;
+                        lectDate = Convert.ToDateTime(dtpLect.Value);
+                        //from = Convert.ToDateTime(lectDate.ToShortDateString() + " " + fromTime.Value.ToShortTimeString());
+                        //to = Convert.ToDateTime(lectDate.ToShortDateString() + " " + toTime.Value.ToShortTimeString());
+                        from = Convert.ToDateTime(fromTime.Value.ToShortTimeString());
+                        to = Convert.ToDateTime(toTime.Value.ToShortTimeString());
+                        objLecture.Stream.Name = (cmbStrm.SelectedItem as ComboItem).name; //used to show in Gridview
+                        objLecture.Standard.StandardName = (cmbCourse.SelectedItem as ComboItem).name;//used to show in Gridview
+                        objLecture.Batch.Name = (cmbBtch.SelectedItem as ComboItem).name;//used to show in Gridview
+                        objLecture.Date = lectDate;
+                        objLecture.FromTime = from;
+                        objLecture.ToTime = to;
+                        objLecture.Subject.SubjName = (cmbSubj.SelectedItem as ComboItem).name;
+                        objLecture.Faculty = new Faculty();
+                        objLecture.Faculty.Name = (cmbFaculty.SelectedItem == null) ? "NA" : (cmbFaculty.SelectedItem as ComboItem).name;
+                        objLecture.Batch.location = ((cmbBtch.SelectedItem as ComboItem).objectValue as Batch).location;
+
+                        objLecture.Stream.ID = (cmbStrm.SelectedItem as ComboItem).key;
+                        objLecture.Standard.Standardid = (cmbCourse.SelectedItem as ComboItem).key;
+                        objLecture.Batch.id = (cmbBtch.SelectedItem as ComboItem).key;
+                        objLecture.Faculty.FacultyID = (cmbFaculty.SelectedItem == null) ? -1 : Convert.ToInt32((cmbFaculty.SelectedItem as ComboItem).strKey);
+
+                        objLecture.Faculty.FacultyID = objLecture.Faculty.FacultyID;
+                        objLecture.Subject.SubjId = Convert.ToInt32((cmbSubj.SelectedItem as ComboItem).key);
+                        objLecture.BranchID = Convert.ToInt32(branchID);
+                        lstlect.Add(objLecture);
+                    }
+                }
+                if (lstlect.Count != 0)
+                {
+<<<<<<< HEAD
+                    DataTable dtLect = WinApp.UICommon.WinForm.ToDataTable(lstlect);
+=======
+                    //DataTable dtLect = WinApp.UICommon.Common.ToDataTable(lstlect);
+>>>>>>> 0ed11c3048eeb0be361b22b94bf9b0eb0ce5a11b
+                    ADGVLectures.DataSource = null;
+                    ADGVLectures.DataSource = lstlect;
+                    //ADGVLectures.DataSource = lstlect;                    
+                }
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+        private bool ValidateControls()
+        {
+            if (cmbStream.SelectedIndex == -1)
+            {
+                UICommon.WinForm.showStatus("Please Select Stream ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                return false;
+            }
+            else if (cmbCourseType.SelectedIndex == -1)
+            {
+                UICommon.WinForm.showStatus("Please Select course", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                return false;
+            }
+            else if (cmbBatch.SelectedIndex == -1)
+            {
+                UICommon.WinForm.showStatus("Please Select batch", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                return false;
+            }
+            else if (cmbSubj.SelectedIndex == -1)
+            {
+                UICommon.WinForm.showStatus("Please Select subject", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                return false;
+            }
+            //else if (cmbFaculty.SelectedIndex == -1)
+            //{
+            //    UICommon.Common.showStatus("Please Select faculty", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            //    return false;
+            //}
+            else if (cmbFaculty.SelectedIndex == -1)
+            {
+                UICommon.Common.showStatus("Please Select Faculty", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                return false;
+            }
+            else if (dtpLect.Value.Date <= System.DateTime.Now.AddDays(-1))
+            {
+                UICommon.WinForm.showStatus("Can't select date before today's date", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                return false;
+            }
+            else if (fromTime.Value.ToShortTimeString() == toTime.Value.ToShortTimeString())
+            {
+                UICommon.WinForm.showStatus("Please select proper time,From time and to time can not be same", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                return false;
+            }
+
+            //if (ADGVLectures.Rows.Count != 0)
+            //{
+            //    int rowNo = ADGVLectures.RowCount;
+            //    int i = rowNo;
+            //    for (i = 0; i <= rowNo; rowNo++)
+            //    {
+            //        if (ADGVLectures.Rows[i].Cells[9].Value.Equals(fromTime.Value) || ADGVLectures.Rows[i].Cells[10].Value.Equals(toTime.Value))
+            //        {
+            //            UICommon.Common.showStatus("Lecture is already schedule fot this time", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+            //            break;
+            //        }
+            //        if (ADGVLectures.Rows[i].Cells[6].Value.Equals(cmbFaculty.Text))
+            //        {
+            //            UICommon.Common.showStatus("This Faculty already has a lecture", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+            //        }
+
+            //    }
+            //    return false;
+
+            //}
+
+            //Lecture objlect = new Lecture();
+
+            //else if (fromTime.Value >= toTime.Value)
+            //{
+            //    UICommon.Common.showStatus("Please select proper time", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            //    return false;
+            //}
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool ValidateFaculty()
+        {
+            if (lstlect.Count > 0)
+            {
+                foreach (Lecture obj in lstlect)
+                {
+                    if ((fromTime.Value >= obj.FromTime && fromTime.Value <= obj.ToTime) || (toTime.Value >= obj.FromTime && toTime.Value <= obj.ToTime))
+                    {
+                        if (obj.Faculty.FacultyID == (cmbFaculty.SelectedItem as ComboItem).key)
+                        {
+                            UICommon.Common.showStatus("Cannot schedule lecture as " + (cmbFaculty.SelectedItem as ComboItem).name + " already has lecture from " + obj.FromTime.ToShortTimeString() + " to " + obj.ToTime.ToShortTimeString() , MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                            return false;
+                        }
+
+                        UICommon.Common.showStatus("Batch " + (cmbBtch.SelectedItem as ComboItem).name + " has lecture from " + obj.FromTime.ToShortTimeString() + " to " + obj.ToTime.ToShortTimeString() , MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                        return false;
+                    }
+                    
+                }
+            }
+            return true;
+        }
+        public void BatchLecture()
+        {
+          //This Method will be called when batch or date is changed
+            lstlect = null;
+            lstlect = BLL.LectureHandler.getLectures(dtpLect.Value, (cmbBtch.SelectedItem as ComboItem).key);
+            ADGVLectures.DataSource = null;
+            if (lstlect.Count != 0)
+            {
+                ADGVLectures.DataSource = lstlect;
+            }
+            else
+            {
+                //UICommon.Common.showStatus("")
+            }
+        }
+
+        private void cmbSubj_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                populateFaculty();
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+        private void ADGVLectures_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            formatLectureGrid();
+        }
+
+        public void formatLectureGrid()
+        {
+            try
+            {
+                //Setting Visibility and formatting cellstyle
+                ADGVLectures.Columns["LectureID"].Visible = false;
+                ADGVLectures.Columns[1].Visible = false;
+                ADGVLectures.Columns[2].Visible = false;
+                ADGVLectures.Columns[3].Visible = false;
+                ADGVLectures.Columns[4].Visible = false;
+                ADGVLectures.Columns[5].Visible = false;
+                foreach (DataGridViewRow row in ADGVLectures.Rows)
+                {
+                    if ((Convert.ToInt32(row.Cells[5].Value) != 0))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.Aqua;
+                    }
+                }
+                ADGVLectures.Columns["FromTime"].DefaultCellStyle.Format = Common.Formatter.TimeFormat;
+                ADGVLectures.Columns["ToTime"].DefaultCellStyle.Format = Common.Formatter.TimeFormat;
+                ADGVLectures.Columns["Date"].DefaultCellStyle.Format = Common.Formatter.DateFormat;
+                if (allow)
+                {
+                    //ADGVLectures.Columns["Faculty"].Visible = false;
+                    ADGVLectures.Columns[4].Visible = false;
+                    //ADGVLectures.Columns["FromTime"].DefaultCellStyle.Format = Common.Formatter.TimeFormat;
+                    //ADGVLectures.Columns["ToTime"].DefaultCellStyle.Format = Common.Formatter.TimeFormat;
+                    //ADGVLectures.Columns["Date"].DefaultCellStyle.Format = Common.Formatter.DateFormat;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+    }
+
+        private void btnShow_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                allow = false;
+                //List<Lecture> lstlect= BLL.LectureHandler.getLectures(dtpLect.Value);
+                ADGVLectures.DataSource = null;
+                if (lstlect.Count > 0)
+                {
+                    ADGVLectures.DataSource = lstlect;
+                }
+                else
+                {
+                    UICommon.WinForm.showStatus("No lectures available ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+        private void ADGVLectures_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == ADGVLectures.Columns["btnDelete"].Index)
+                {
+                    int lectureId;
+                    foreach (DataGridViewRow lecture in ADGVLectures.Rows)
+                    {
+                        if (lecture.Cells[0].Selected != false && lecture.Cells[0].Selected)// && lecture.Cells["LectureID"].Value=="0")
+                        {
+                            if (lstlect.Count != 0 && lstlect.Count != 0)
+                            {
+<<<<<<< HEAD
+                                lstlect.RemoveAt(e.RowIndex);
+                                ADGVLectures.Refresh();
+                                ADGVLectures.DataSource = WinApp.UICommon.WinForm.ToDataTable(lstlect);
+=======
+                                if (Convert.ToInt32(lecture.Cells[5].Value)!=0)
+                                {
+                                    UICommon.Common.showStatus("Can't Delete Lecture as it is already schedule", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                                }
+                                else
+                                {
+                                    lstlect.RemoveAt(e.RowIndex);
+                                    ADGVLectures.Refresh();
+                                    ADGVLectures.DataSource = WinApp.UICommon.Common.ToDataTable(lstlect);
+                                }
+>>>>>>> 0ed11c3048eeb0be361b22b94bf9b0eb0ce5a11b
+                            }
+                            else
+                            {
+                                lectureId = (Convert.ToInt32(lecture.Cells["LectureID"].Value));
+
+                                var a = MessageBox.Show("Are you sure to delete this item?", sCaption, MessageBoxButtons.YesNo);
+                                if (a == DialogResult.Yes)
+                                {
+                                    bool retrnCode = BLL.LectureHandler.deleteLecture(lectureId, Program.LoggedInUser.BranchId);
+                                    if (retrnCode)
+                                    {
+                                        UICommon.WinForm.showStatus("Lecture deleted successfully ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+
+                                    }
+                                    else
+                                    {
+                                        UICommon.WinForm.showStatus("Already deleted ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                                    }
+                                    //List<Lecture> lstlecture = BLL.LectureHandler.getLectures(dtpLect.Value);
+                                    //ADGVLectures.DataSource = lstlecture;
+                                }
+                                else
+                                {
+
+                                    ADGVLectures.Refresh();
+                                }
+
+                            }
+
+                        }
+                        //if (lecture.Cells[0].Selected != null && lecture.Cells[0].Selected)
+                        //{
+                        //    lecture.Cells.Remove(lecture.Cells[0]);
+                        //}
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+
+
+        private void showLectures()
+        {
+            try
+            {
+                Info.Lecture objLect = new Lecture();
+                DateTime fromDate, toDate;
+                objLect.Stream.ID = (cmbStream.SelectedItem as ComboItem).key;
+                objLect.Standard.Standardid = (cmbCourseType.SelectedItem as ComboItem).key;
+                objLect.Batch.id = (cmbBatch.SelectedItem as ComboItem).key;
+                fromDate = dtpFrom.Value;
+                toDate = dtpTo.Value;
+                lstlect = BLL.LectureHandler.getLecturesDetails(objLect, fromDate, toDate, branchID);
+                if (lstlect.Count > 0)
+                {
+                    ADGVLectureDetails.DataSource = WinApp.UICommon.WinForm.ToDataTable(lstlect);
+                    ADGVLectureDetails.Columns["FromTime"].DefaultCellStyle.Format = "HH:mm:ss";
+                    ADGVLectureDetails.Columns["ToTime"].DefaultCellStyle.Format = "HH:mm:ss";
+                }
+                else
+                {
+                    UICommon.WinForm.showStatus("No lectures available ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+
+
+
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                allow = false;
+                showLectures();
+
+                int stdID;
+                int batchID;
+
+
+
+
+                stdID = Convert.ToInt32((cmbCourseType.SelectedItem as ComboItem).strKey);
+                batchID = Convert.ToInt32((cmbBatch.SelectedItem as ComboItem).strKey);
+                List<Info.Student> lststudent = BLL.StudentHandller.getStudents(stdID, batchID, WinApp.Program.LoggedInUser.BranchId);
+
+                BLL.NotificationHandler.sendLectureSMSToStudent(lststudent, lstlect);
+                BLL.NotificationHandler.sendLectureSMSToFaculty(lstlect, WinApp.Program.LoggedInUser.BranchId);
+            }
+            catch (Exception ex)
+            {
+
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+        private void btnShowLect_Click(object sender, EventArgs e)
+        {
+
+            showLectures();
+        }
+
+        private void ADGVLectureDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+
+            ADGVLectureDetails.Columns["SubjID"].Visible = false;
+            ADGVLectureDetails.Columns["LectureID"].Visible = false;
+            ADGVLectureDetails.Columns["StreamID"].Visible = false;
+            ADGVLectureDetails.Columns["LectureFaculty"].Visible = false;
+            ADGVLectureDetails.Columns["StandardID"].Visible = false;
+            ADGVLectureDetails.Columns["BatchID"].Visible = false;
+            ADGVLectureDetails.Columns["BranchID"].Visible = false;
+
+
+        }
+
+
+
+        private void cmbStrm_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (allowIndexChanges)
+                    populateCourseOfCreate();
+
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+
+
+        private void cmbCourse_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (allowIndexChanges)
+                {
+                    populateBatchOfCreateLec();
+                }
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+
+
+        private void cmbBtch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                //if (allowIndexChanges)
+                //{
+                    populateSubject();
+                //}
+                  
+                if (cmbBatch.SelectedIndex != -1)
+                {
+                    Batch objBatch = cmbBatch.SelectedItem as Batch;
+                    if (objBatch != null)
+                    {
+                        if (objBatch.FromTime != null)
+                        {
+                            fromTime.Value = objBatch.FromTime.Value;
+                        }
+                        else
+                        {
+                            fromTime.Value = DateTime.Now;
+                        }
+                        if (objBatch.ToTime != null)
+                        {
+                            toTime.Value = objBatch.ToTime.Value;
+                        }
+                        else
+                        {
+                            toTime.Value = DateTime.Now;
+                        }
+                    }
+                    BatchLecture();
+                }
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+        private void tabLecture_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            allowIndexChanges = true;
+            lblSubject.Visible = false;
+            lblfaculty.Visible = false;
+            cmbSubj.Visible = false;
+            cmbFaculty.Visible = false;
+            populateStreamOfCreate();
+            lstlect = null;
+            //lstlect=BLL.LectureHandler.getLectures(dtpLect.Value, (cmbBtch.SelectedItem as ComboItem).key);
+            //ADGVLectures.DataSource = null;
+            //if (lstlect.Count != 0)
+            //{
+            //    ADGVLectures.DataSource = lstlect;
+            //}
+            //else
+            //{
+            //    //UICommon.Common.showStatus("")
+            //}
+            BatchLecture();
+
+        }
+
+        private void populateStreamOfCreate()
+        {
+            try
+            {
+                cmbStrm.Items.Clear();
+                //cmbStrm.Items.Add(new ComboItem("%", "All", null));
+
+                List<Stream> lstStream = StreamHandller.getStreams(branchID);
+                if (lstStream.Count != 0)
+                {
+                    foreach (Stream objStream in lstStream)
+                    {
+                        cmbStrm.Items.Add(new ComboItem(objStream.ID.ToString(), objStream.Name, objStream));
+                    }
+                    cmbStrm.SelectedIndex = 0;
+                }
+                else
+                {
+                    UICommon.WinForm.showStatus("No Streams available ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void populateCourseOfCreate()
+        {
+            try
+            {
+                cmbCourse.Items.Clear();
+                //cmbCourse.Items.Add(new ComboItem("%", "All", null));
+                //if (((cmbStrm.SelectedItem as ComboItem).name) == "All")
+                //{
+                //    cmbCourse.SelectedIndex = 0;
+                //}
+                //else
+               // {
+                    List<Standard> lstStd = StandardHandller.getStandard(Program.LoggedInUser.BranchId, (cmbStrm.Items[cmbStrm.SelectedIndex] as ComboItem).strKey);
+                    if (lstStd.Count != 0)
+                    {
+                        foreach (Standard objStandard in lstStd)
+                        {
+                            cmbCourse.Items.Add(new ComboItem(objStandard.Standardid.ToString(), objStandard.StandardName, objStandard));
+                        }
+                        cmbCourse.SelectedIndex = 0;
+                        //cmbCourse_SelectedIndexChanged(cmbCourseType, new EventArgs());
+                    }
+                    else
+                    {
+                        UICommon.WinForm.showStatus("No Courses available ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    }
+                //}
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private void populateBatchOfCreateLec()
+        {
+            try
+            {
+                if (allowIndexChanges)
+                {
+                    allowIndexChanges = false;
+                    cmbBtch.Items.Clear();
+                    //cmbBtch.Items.Add(new ComboItem("%", "All", null));
+                    //if (((cmbCourse.SelectedItem as ComboItem).name) == "All")
+                    //{
+                    //    cmbBtch.SelectedIndex = 0;
+                    //}
+                    //else
+                    //{
+                        List<Batch> lstBatch = StandardHandller.GetBatches((cmbCourse.Items[cmbCourse.SelectedIndex] as ComboItem).key, Program.LoggedInUser.BranchId);
+
+                        if (lstBatch.Count != 0)
+                        {
+                            foreach (Batch objBatch in lstBatch)
+                            {
+                                cmbBtch.Items.Add(new ComboItem(objBatch.id.ToString(), objBatch.Name, objBatch));
+                            }
+                            Batch obj = new Batch();
+                            obj = lstBatch[0];
+                            fromTime.Value = (obj.FromTime == null) ? DateTime.Now : obj.FromTime.Value;
+                            toTime.Value = (obj.ToTime == null) ? DateTime.Now : obj.ToTime.Value;
+                            cmbBtch.SelectedIndex = 0;
+                            //cmbBatch_SelectedIndexChanged(cmbBatch, new EventArgs());
+                        }
+                        else
+                        {
+                            UICommon.WinForm.showStatus("No Batches available ", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                        }
+
+                    //}
+                    allowIndexChanges = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void cmbFaculty_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpLect_ValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                BatchLecture();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+         
+        }
+    }
+}
+

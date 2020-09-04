@@ -1,0 +1,168 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace ClassManager.WinApp
+{
+    public partial class FrmBranchMaster : Form
+    {
+        string sCaption = "BRANCH_MASTER";
+        Boolean isCurrent = true;
+        public FrmBranchMaster()
+        {
+            InitializeComponent();
+        }
+
+        private void BRANCH_MASTER_Load(object sender, EventArgs e)
+        {
+          
+            ADGVBranchMaster.DataSource = BLL.BranchHandler.getAllBranches();
+
+            AssignEvents();
+         
+
+        }
+        private void AssignEvents()
+        {
+           txtHead.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Common.Events.charOnly);
+           ADGVBranchMaster.SortStringChanged += new System.EventHandler(Common.Events.sortGridView);
+           ADGVBranchMaster.FilterStringChanged += new System.EventHandler(Common.Events.filterGridView);
+        }
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ValidateDetails())
+                {
+                    Info.Branch objBranch = new Info.Branch();
+
+                    objBranch.Address = txtAddress.Text;
+                    objBranch.Head = txtHead.Text;
+                    objBranch.IsCurrent = "";
+                    objBranch.BranchName = txtName.Text;
+                    BLL.BranchHandler.createBranch(objBranch);
+                    UICommon.WinForm.showStatus("Branch Created Successfuly.", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    clear();
+                    ADGVBranchMaster.Refresh();
+
+                }
+<<<<<<< HEAD
+                else
+                {
+                    UICommon.WinForm.showStatus("Enter Branch Name", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+=======
+                //else
+                //{
+                //    UICommon.Common.showStatus("Enter Branch Name", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                //}
+>>>>>>> 0ed11c3048eeb0be361b22b94bf9b0eb0ce5a11b
+            }
+
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("Branch Already Created with this name"))
+                {
+                    UICommon.WinForm.showStatus("Branch Already Created with this name", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                    clear();
+                }
+
+                else
+
+                {
+                    UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+                }
+            }
+        }
+
+        public void clear()
+        {
+            txtName.Text = "";
+            txtHead.Text = "";
+            txtAddress.Text = "";
+        
+        }
+            
+        public bool ValidateDetails()
+        {
+            if (txtName.Text == "" && txtName.Text == "")
+            {
+                UICommon.WinForm.showStatus("Enter Branch Name.", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                return false;
+            }
+            else if(txtAddress.Text=="" && txtAddress .Text=="")
+
+            {
+                UICommon.WinForm.showStatus("Enter Address.", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                return false;
+            }
+            return true;
+        }
+
+        internal static object getCurrentBranch()
+        {
+            return BLL.BranchHandler.getBranch(Properties.Settings.Default.BranchId);
+        }
+
+       
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+            
+
+                DataTable dt = new DataTable();
+                dt = ADGVBranchMaster.DataSource as DataTable;
+                Info.Branch objBranch = new Info.Branch();
+                foreach (DataRow dtRows in dt.Rows)
+                {
+
+                    objBranch.BranchId = Convert.ToInt32(dtRows[0]);
+                    objBranch.BranchName = dtRows[1].ToString();
+                    objBranch.Address = dtRows[2].ToString();
+                    objBranch.Head = dtRows[3].ToString();
+
+                    BLL.BranchHandler.updateBranchMaster(objBranch);
+                }
+                if (objBranch != null)
+                {
+
+                    UICommon.WinForm.showStatus("Branch details updated successfully.", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+                else
+                {
+
+                    UICommon.WinForm.showStatus("No cell updated.", MessageBoxButtons.OK, MessageBoxIcon.Information, sCaption, this);
+                }
+            }
+            catch (Exception ex)
+            {
+                UICommon.WinForm.showError(ex, "Error Occured, Please Contact Support", MessageBoxButtons.OK, MessageBoxIcon.Error, sCaption, this);
+            }
+        }
+
+        private void ADGVBranchMaster_DataBindingComplete_1(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            ADGVBranchMaster.Columns[0].ReadOnly=true;
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            ADGVBranchMaster.DataSource = BLL.BranchHandler.getAllBranches();
+
+        }
+
+     
+
+
+       
+
+        
+    }
+}
